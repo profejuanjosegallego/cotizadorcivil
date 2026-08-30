@@ -43,9 +43,9 @@ export default function PlanoMini({ slug }: { slug: string }) {
               <>
                 <text
                   x={z.x + z.w / 2}
-                  y={z.y + z.h / 2 + (z.sub ? -3 : 5)}
+                  y={z.y + z.h / 2 + (z.sub ? (todo ? -3 : -5) : (todo ? 7 : 9))}
                   textAnchor="middle"
-                  fontSize="15"
+                  fontSize={todo ? 20 : 26}
                   letterSpacing="1.6"
                   fontWeight="600"
                   fill={activa ? CLAY : INK}
@@ -56,9 +56,9 @@ export default function PlanoMini({ slug }: { slug: string }) {
                 {z.sub && (
                   <text
                     x={z.x + z.w / 2}
-                    y={z.y + z.h / 2 + 16}
+                    y={z.y + z.h / 2 + (todo ? 17 : 22)}
                     textAnchor="middle"
-                    fontSize="15"
+                    fontSize={todo ? 20 : 26}
                     letterSpacing="1.6"
                     fontWeight="600"
                     fill={activa ? CLAY : INK}

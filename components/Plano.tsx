@@ -8,6 +8,8 @@ import {
   INK,
   MARCAS,
   MURO_ACTUAL_Y,
+  BARRA,
+  BORDES_ABIERTOS,
   MURO_ORIGINAL_Y,
   PAPER,
   VANOS,
@@ -161,14 +163,60 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
           {/* ---- Vanos: abren el muro ---- */}
           <g style={{ pointerEvents: "none" }}>
             {VANOS.map((v, i) => (
-              <rect key={i} x={v.x} y={v.y} width={v.w} height={v.h} fill={PAPER} />
+              <rect key={i} x={v.x} y={v.y} width={v.w} height={v.h} fill="#fff" />
             ))}
+            {/* Sala, comedor, cocina y corredor son un solo espacio: bordes punteados */}
+            {BORDES_ABIERTOS.map((b, i) => (
+              <g key={i}>
+                <line
+                  x1={b.x1}
+                  y1={b.y1}
+                  x2={b.x2}
+                  y2={b.y2}
+                  stroke={INK}
+                  strokeWidth="1.2"
+                  strokeDasharray="6 6"
+                  opacity="0.28"
+                />
+                {b.nota && (
+                  <text x={b.x1 + 6} y={b.y1 + 15} fontSize="10" fill={INK} opacity="0.45">
+                    {b.nota}
+                  </text>
+                )}
+              </g>
+            ))}
+
+            {/* Barra americana: lo único que separa la cocina de la entrada */}
+            <rect
+              x={BARRA.x}
+              y={BARRA.y}
+              width={BARRA.w}
+              height={BARRA.h}
+              fill={INK}
+              fillOpacity="0.1"
+              stroke={INK}
+              strokeWidth="2"
+            />
+            {/* Pata metálica del extremo libre */}
+            <circle cx={BARRA.x + BARRA.w / 2} cy={BARRA.y + BARRA.h - 6} r="4" fill={INK} opacity="0.55" />
+            <text x="700" y="100" textAnchor="middle" fontSize="10" fill={INK} opacity="0.5">
+              barra americana
+            </text>
             {/* Arcos de puerta */}
             <g fill="none" stroke={INK} strokeWidth="1" opacity="0.3">
               <path d="M185 222 A52 52 0 0 1 237 274" />
               <path d="M520 222 A52 52 0 0 1 572 274" />
               <path d="M745 148 A50 50 0 0 0 695 198" />
             </g>
+            {/* Salida al balcón: puerta corrediza, dos hojas encimadas */}
+            <line x1="137" y1="162" x2="137" y2="190" stroke={INK} strokeWidth="1.6" opacity="0.55" />
+            <line x1="141" y1="186" x2="141" y2="214" stroke={INK} strokeWidth="1.6" opacity="0.55" />
+
+            {/* La entrada es sólo el comienzo del corredor, no un espacio aparte */}
+            <text x="700" y="212" textAnchor="middle" fontSize="10" letterSpacing="1.4" fill={INK} opacity="0.45">
+              ENTRADA
+            </text>
+
             {/* La puerta del cuarto útil abre hacia el corredor del edificio */}
             <path d="M755 372 A48 48 0 0 1 803 420" fill="none" stroke={CLAY} strokeWidth="1.6" />
           </g>
@@ -202,10 +250,10 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
             <circle cx="620" cy="47" r="9" fill="none" stroke={CLAY} strokeWidth="1.6" />
             <path d="M620 38 v-6 h10" fill="none" stroke={CLAY} strokeWidth="1.6" />
 
-            {/* 4 · Estantería al fondo del corredor */}
-            <rect x="143" y="136" width="26" height="76" fill="none" stroke={CLAY} strokeWidth="2.2" />
-            <line x1="143" y1="161" x2="169" y2="161" stroke={CLAY} strokeWidth="1.3" />
-            <line x1="143" y1="187" x2="169" y2="187" stroke={CLAY} strokeWidth="1.3" />
+            {/* 4 · Estantería al fondo, contra el muro del balcón y junto a su puerta */}
+            <rect x="143" y="92" width="26" height="60" fill="none" stroke={CLAY} strokeWidth="2.2" />
+            <line x1="143" y1="112" x2="169" y2="112" stroke={CLAY} strokeWidth="1.3" />
+            <line x1="143" y1="132" x2="169" y2="132" stroke={CLAY} strokeWidth="1.3" />
 
             {/* 5 · Muro del corredor con apliques dirigidos */}
             <line x1="365" y1="220" x2="472" y2="220" stroke={CLAY} strokeWidth="5.5" />
@@ -318,10 +366,17 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
 
       {/* Fuera del SVG: en el celular estas dos líneas quedarían fuera de vista */}
       <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <p className="flex items-start gap-2 text-[12px] leading-snug text-moss">
-          <span aria-hidden className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-moss" />
-          El cuarto útil no se comunica con el apartamento: se entra por el corredor del edificio.
-        </p>
+        <div className="space-y-1.5">
+          <p className="flex items-start gap-2 text-[12px] leading-snug text-moss">
+            <span aria-hidden className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-moss" />
+            Sala, comedor, cocina y corredor son un solo espacio abierto: entre ellos no hay muros
+            ni puertas, sólo la barra americana junto a la entrada.
+          </p>
+          <p className="flex items-start gap-2 text-[12px] leading-snug text-moss">
+            <span aria-hidden className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-moss" />
+            El cuarto útil no se comunica con el apartamento: se entra por el corredor del edificio.
+          </p>
+        </div>
         <p className="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
           Esquema · no a escala
         </p>

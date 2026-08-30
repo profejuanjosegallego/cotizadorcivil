@@ -47,7 +47,8 @@ lib/
 components/
   Plano.tsx                Plano interactivo (client)
   PlanoMini.tsx            Mini plano con el espacio resaltado
-  DiagramaEstudio.tsx      Antes / después del muro del estudio
+  DiagramaEstudio.tsx      Hoy / como debe quedar: el muro que se devuelve a su sitio
+  DiagramaEstanteria.tsx   Ejemplo dibujado del sistema de rieles y entrepaños
   EspacioItems.tsx         Formulario de cotización con autoguardado
   Iconos.tsx               Set de iconos de línea
   Imprimir.tsx             Botón de imprimir / guardar en PDF
@@ -69,4 +70,8 @@ por el `id` de cada ítem. Para agregar o cambiar un trabajo, se edita `lib/obra
 - **El plano es un esquema, no está a escala.** Está trazado sobre la distribución real,
   incluido el cuarto útil, que no se comunica con el apartamento y se entra por el
   corredor común del edificio.
+- **El muro del estudio.** La dueña anterior lo corrió hacia el estudio para agrandar el
+  cuarto útil y alquilarlo con cocineta, baño y ducha. La obra retira esos servicios y
+  devuelve el muro a su posición original. Dónde quedaba exactamente se confirma en sitio:
+  es el único dato del alcance que no está definido.
 - **Imprimible.** `/resumen` tiene estilos de impresión para sacar la cotización en PDF.

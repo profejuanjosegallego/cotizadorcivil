@@ -1,4 +1,4 @@
-import { CLAY, INK, PAPER, VANOS, VIEWBOX, ZONAS } from "@/lib/plano";
+import { CLAY, INK, VANOS, VIEWBOX, ZONAS } from "@/lib/plano";
 
 /**
  * Versión estática del plano con un espacio resaltado. Va en la cabecera de
@@ -81,7 +81,7 @@ export default function PlanoMini({ slug }: { slug: string }) {
       />
 
       {VANOS.map((v, i) => (
-        <rect key={i} x={v.x} y={v.y} width={v.w} height={v.h} fill={PAPER} />
+        <rect key={i} x={v.x} y={v.y} width={v.w} height={v.h} fill="#fff" />
       ))}
     </svg>
   );

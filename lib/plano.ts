@@ -46,8 +46,9 @@ export const ZONAS: Zona[] = [
   { slug: "balcon", label: "BALCÓN", x: 30, y: 30, w: 109, h: 307 },
   { slug: "comedor", label: "SALA", sub: "COMEDOR", x: 139, y: 30, w: 280, h: 94 },
   { slug: "cocina", label: "COCINA", x: 419, y: 30, w: 331, h: 94 },
-  { slug: "corredor", label: "CORREDOR", x: 139, y: 124, w: 456, h: 98 },
-  { slug: null, label: "ENTRADA", x: 595, y: 124, w: 155, h: 98 },
+  // El corredor arranca en la puerta principal y llega derecho hasta el balcón:
+  // la entrada no es un espacio aparte, es su comienzo.
+  { slug: "corredor", label: "CORREDOR", x: 139, y: 124, w: 611, h: 98 },
   {
     slug: "habitacion-principal",
     label: "HABITACIÓN",
@@ -83,8 +84,8 @@ export const MARCAS: Marca[] = [
   {
     n: 2,
     slug: "comedor",
-    x: 190,
-    y: 60,
+    x: 210,
+    y: 48,
     icono: "luz",
     titulo: "Lámpara colgante sobre la mesa del comedor",
   },
@@ -99,8 +100,8 @@ export const MARCAS: Marca[] = [
   {
     n: 4,
     slug: "corredor",
-    x: 195,
-    y: 178,
+    x: 205,
+    y: 112,
     icono: "estanteria",
     titulo: "Estantería empotrada con luz LED al fondo del corredor",
   },
@@ -155,16 +156,37 @@ export const MARCAS: Marca[] = [
   },
 ];
 
-/** Vanos: se pintan encima del muro para abrir la puerta o la ventana. */
+/**
+ * Vanos: se pintan encima del muro para abrirlo.
+ *
+ * La mitad social del apartamento —sala, comedor, cocina, corredor y la entrada—
+ * es un solo espacio abierto: no hay muros ni puertas entre ellos. Lo único que
+ * separa la cocina de la entrada es la barra americana.
+ */
 export const VANOS = [
-  { x: 134, y: 50, w: 10, h: 46 }, // salida al balcón
-  { x: 210, y: 119, w: 60, h: 10 }, // paso sala–corredor
+  { x: 141, y: 119, w: 276, h: 10 }, // sala comedor abierta al corredor
+  { x: 414, y: 34, w: 10, h: 86 }, // sala comedor abierta a la cocina
+  { x: 597, y: 119, w: 151, h: 10 }, // cocina abierta al corredor, con la barra
+  { x: 134, y: 162, w: 10, h: 52 }, // salida al balcón, junto a la estantería del fondo
   { x: 745, y: 148, w: 10, h: 50 }, // puerta principal del apartamento
   { x: 185, y: 217, w: 52, h: 10 }, // puerta habitación principal
   { x: 398, y: 217, w: 44, h: 10 }, // puerta baño
   { x: 520, y: 217, w: 52, h: 10 }, // puerta estudio
   { x: 745, y: 372, w: 10, h: 48 }, // puerta del cuarto útil, desde el edificio
 ];
+
+/** Bordes sin muro: se marcan punteados para que el espacio se lea continuo. */
+export const BORDES_ABIERTOS = [
+  { x1: 176, y1: 124, x2: 417, y2: 124, nota: "sin muro · espacio continuo" },
+  { x1: 419, y1: 36, x2: 419, y2: 118, nota: null },
+  { x1: 599, y1: 124, x2: 746, y2: 124, nota: null },
+];
+
+/**
+ * Barra americana: sale en voladizo del mesón de la cocina hacia la entrada,
+ * apoyada al final en una pata metálica. Se puede rodear por los dos lados.
+ */
+export const BARRA = { x: 638, y: 58, w: 15, h: 92 };
 
 /** Muro actual entre estudio y cuarto útil (el que corrió la dueña anterior). */
 export const MURO_ACTUAL_Y = 337;

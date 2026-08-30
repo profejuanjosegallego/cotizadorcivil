@@ -3,7 +3,17 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Icono from "@/components/Iconos";
-import { CLAY, INK, MARCAS, PAPER, PLANO_MIN_ANCHO, VANOS, VIEWBOX, ZONAS } from "@/lib/plano";
+import {
+  CLAY,
+  INK,
+  MARCAS,
+  MURO_ACTUAL_Y,
+  MURO_ORIGINAL_Y,
+  PAPER,
+  VANOS,
+  VIEWBOX,
+  ZONAS,
+} from "@/lib/plano";
 
 export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
   const router = useRouter();
@@ -21,8 +31,9 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
       <div className="-mx-5 min-w-0 overflow-x-auto px-5 sm:mx-0 sm:px-0">
         <svg
           viewBox={VIEWBOX}
-          style={{ minWidth: PLANO_MIN_ANCHO }}
-          className="h-auto w-full select-none"
+          // Ancho mínimo sólo en pantallas chicas: arriba de md el plano cabe
+          // completo y no debe forzar desplazamiento horizontal.
+          className="h-auto w-full min-w-[660px] select-none md:min-w-0"
           role="img"
           aria-label="Plano del apartamento con las intervenciones señaladas"
         >
@@ -113,7 +124,7 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
                 />
                 <text
                   x={z.x + z.w / 2}
-                  y={z.y + z.h / 2 + (z.sub ? -3 : 5)}
+                  y={z.y + z.h / 2 + (z.labelDy ?? 0) + (z.sub ? -3 : 5)}
                   textAnchor="middle"
                   fontSize="14"
                   letterSpacing="1.6"
@@ -126,7 +137,7 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
                 {z.sub && (
                   <text
                     x={z.x + z.w / 2}
-                    y={z.y + z.h / 2 + 15}
+                    y={z.y + z.h / 2 + (z.labelDy ?? 0) + 15}
                     textAnchor="middle"
                     fontSize="14"
                     letterSpacing="1.6"
@@ -207,16 +218,66 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
             <rect x="250" y="327" width="70" height="11" fill={CLAY} opacity="0.85" />
             <path d="M262 322 q6 -7 12 0 M286 322 q6 -7 12 0" fill="none" stroke={CLAY} strokeWidth="1.4" />
 
-            {/* 8 · Muro entre estudio y cuarto útil: se demuele y se cierra */}
-            <rect x="478" y="331" width="272" height="12" fill="url(#demolicion)" />
-            <rect x="478" y="331" width="272" height="12" fill="none" stroke={CLAY} strokeWidth="1.5" />
+            {/* 8 · El muro vuelve a su posición original y el estudio recupera esa franja */}
+            <rect
+              x="480"
+              y={MURO_ACTUAL_Y + 2}
+              width="268"
+              height={MURO_ORIGINAL_Y - MURO_ACTUAL_Y - 4}
+              fill={CLAY}
+              opacity="0.09"
+            />
+            <text
+              x="614"
+              y={(MURO_ACTUAL_Y + MURO_ORIGINAL_Y) / 2 + 4}
+              textAnchor="middle"
+              fontSize="10.5"
+              fill={CLAY}
+              letterSpacing="0.3"
+            >
+              ← área que recupera el estudio →
+            </text>
+            {/* Muro actual: se demuele */}
+            <rect x="478" y={MURO_ACTUAL_Y - 6} width="272" height="12" fill="url(#demolicion)" />
+            <rect
+              x="478"
+              y={MURO_ACTUAL_Y - 6}
+              width="272"
+              height="12"
+              fill="none"
+              stroke={CLAY}
+              strokeWidth="1.5"
+            />
+            {/* Muro nuevo, en la posición original */}
+            <rect x="478" y={MURO_ORIGINAL_Y - 5} width="272" height="11" fill={CLAY} />
 
-            {/* 9 · Cuarto útil: baldosa nueva y estantería con rieles */}
-            <rect x="486" y="349" width="256" height="99" fill="url(#enchape)" opacity="0.6" />
-            <rect x="600" y="425" width="130" height="18" fill={PAPER} stroke={CLAY} strokeWidth="2.2" />
-            <line x1="632" y1="425" x2="632" y2="443" stroke={CLAY} strokeWidth="1.3" />
-            <line x1="665" y1="425" x2="665" y2="443" stroke={CLAY} strokeWidth="1.3" />
-            <line x1="698" y1="425" x2="698" y2="443" stroke={CLAY} strokeWidth="1.3" />
+            {/* 10 · Servicios que se retiran: cocineta, baño y ducha */}
+            <g stroke={CLAY} strokeWidth="1.5" strokeDasharray="4 3" fill="none">
+              <rect x="662" y="386" width="80" height="62" />
+            </g>
+            <g stroke={CLAY} strokeWidth="1.3" fill="none" opacity="0.85">
+              {/* sanitario */}
+              <rect x="670" y="392" width="14" height="20" rx="6" />
+              {/* ducha */}
+              <rect x="700" y="418" width="34" height="24" />
+              <path d="M700 418 L734 442M734 418 L700 442" strokeWidth="0.9" opacity="0.5" />
+            </g>
+            {/* cocineta */}
+            <rect x="488" y="432" width="84" height="16" fill="none" stroke={CLAY} strokeWidth="1.5" strokeDasharray="4 3" />
+            <circle cx="512" cy="440" r="5" fill="none" stroke={CLAY} strokeWidth="1.2" />
+
+            {/* 9 · Baldosa resistente y estantería con rieles en el cuarto útil final */}
+            <rect
+              x="486"
+              y={MURO_ORIGINAL_Y + 8}
+              width="256"
+              height={448 - MURO_ORIGINAL_Y - 8}
+              fill="url(#enchape)"
+              opacity="0.55"
+            />
+            <rect x="486" y="388" width="16" height="52" fill={PAPER} stroke={CLAY} strokeWidth="2.2" />
+            <line x1="486" y1="405" x2="502" y2="405" stroke={CLAY} strokeWidth="1.3" />
+            <line x1="486" y1="422" x2="502" y2="422" stroke={CLAY} strokeWidth="1.3" />
           </g>
 
           {/* ---- Marcas numeradas ---- */}
@@ -266,7 +327,7 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
         </p>
       </div>
 
-      <p className="no-print mt-2 text-[11.5px] text-muted sm:hidden">
+      <p className="no-print mt-2 text-[11.5px] text-muted md:hidden">
         Deslice el plano en horizontal para verlo completo →
       </p>
 

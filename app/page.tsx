@@ -14,6 +14,7 @@ const LEYENDA: { icono: IconoNombre; texto: string }[] = [
   { icono: "luz", texto: "Punto de luz nuevo" },
   { icono: "estanteria", texto: "Mueble o estantería a la medida" },
   { icono: "baldosa", texto: "Piso o enchape nuevo" },
+  { icono: "bano", texto: "Cocineta, baño y ducha que se retiran" },
 ];
 
 export default async function Home() {
@@ -105,7 +106,7 @@ export default async function Home() {
       {/* ---------- Plano ---------- */}
       <section id="plano" className="border-y border-line bg-white">
         <div className="mx-auto max-w-content px-5 py-14 sm:px-8 sm:py-20">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.45fr] lg:gap-14">
+          <div className="grid gap-10 lg:grid-cols-[minmax(260px,1fr)_1.75fr] lg:gap-12">
             <div className="lg:sticky lg:top-24 lg:self-start">
               <p className="eyebrow">Plano de intervenciones</p>
               <h2 className="mt-3 text-[26px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">

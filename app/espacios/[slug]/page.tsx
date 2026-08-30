@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import EspacioItems from "@/components/EspacioItems";
 import PlanoMini from "@/components/PlanoMini";
 import DiagramaEstudio from "@/components/DiagramaEstudio";
+import DiagramaEstanteria from "@/components/DiagramaEstanteria";
 import Icono from "@/components/Iconos";
 import { ESPACIOS, getEspacio } from "@/lib/obra";
 import { leerCotizaciones } from "@/lib/mongodb";
@@ -83,6 +84,17 @@ export default async function EspacioPage({ params }: { params: { slug: string }
             El muro nuevo y el cuarto útil
           </h2>
           <DiagramaEstudio />
+        </section>
+      )}
+
+      {/* ---------- Ejemplo de la estantería ---------- */}
+      {espacio.slug === "cuarto-util" && (
+        <section className="mt-14">
+          <p className="eyebrow">La estantería que queremos</p>
+          <h2 className="mb-5 mt-2.5 text-[21px] font-semibold tracking-tight sm:text-[22px]">
+            Sistema de rieles y entrepaños regulables
+          </h2>
+          <DiagramaEstanteria />
         </section>
       )}
 

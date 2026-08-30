@@ -20,7 +20,11 @@ export type IconoNombre =
   | "estufa"
   | "baranda"
   | "electrico"
-  | "puerta";
+  | "puerta"
+  | "bano"
+  | "ducha"
+  | "cocineta"
+  | "carga";
 
 export type Zona = {
   slug: string | null;
@@ -30,6 +34,8 @@ export type Zona = {
   y: number;
   w: number;
   h: number;
+  /** Corrimiento vertical de la etiqueta cuando el centro está ocupado. */
+  labelDy?: number;
 };
 
 export const VIEWBOX = "0 0 820 474";
@@ -53,7 +59,7 @@ export const ZONAS: Zona[] = [
   },
   { slug: null, label: "BAÑO", x: 359, y: 222, w: 119, h: 115 },
   { slug: "estudio", label: "ESTUDIO", x: 478, y: 222, w: 272, h: 115 },
-  { slug: "cuarto-util", label: "CUARTO ÚTIL", x: 478, y: 337, w: 272, h: 119 },
+  { slug: "cuarto-util", label: "CUARTO ÚTIL", x: 478, y: 337, w: 272, h: 119, labelDy: 16 },
 ];
 
 export type Marca = {
@@ -129,15 +135,23 @@ export const MARCAS: Marca[] = [
     x: 545,
     y: 337,
     icono: "muro",
-    titulo: "Demoler el muro actual y cerrar el estudio del cuarto útil",
+    titulo: "Devolver el muro a su posición original y recuperar el área del estudio",
   },
   {
     n: 9,
     slug: "cuarto-util",
     x: 520,
-    y: 370,
-    icono: "baldosa",
-    titulo: "Estantería con rieles y baldosa nueva en el cuarto útil",
+    y: 405,
+    icono: "carga",
+    titulo: "Baldosa resistente y estantería con rieles en el cuarto útil",
+  },
+  {
+    n: 10,
+    slug: "cuarto-util",
+    x: 703,
+    y: 415,
+    icono: "bano",
+    titulo: "Retirar la cocineta, el baño y la ducha que se instalaron para alquilar",
   },
 ];
 
@@ -151,6 +165,11 @@ export const VANOS = [
   { x: 520, y: 217, w: 52, h: 10 }, // puerta estudio
   { x: 745, y: 372, w: 10, h: 48 }, // puerta del cuarto útil, desde el edificio
 ];
+
+/** Muro actual entre estudio y cuarto útil (el que corrió la dueña anterior). */
+export const MURO_ACTUAL_Y = 337;
+/** Posición original del muro, a la que se devuelve. Se confirma en sitio. */
+export const MURO_ORIGINAL_Y = 376;
 
 export const INK = "#141414";
 export const CLAY = "#B4633A";

@@ -96,6 +96,41 @@ const TRAZOS: Record<IconoNombre, React.ReactNode> = {
       <path d="M13 2 4.5 13.5H11l-1 8.5 9-11.5h-6.5z" />
     </>
   ),
+  // Sanitario
+  bano: (
+    <>
+      <path d="M6 3v6a5 5 0 0 0 5 5h1a5 5 0 0 0 5-5V9H6" />
+      <path d="M10 14v3.5a2 2 0 0 0 2 2h4" />
+      <path d="M7 21h9" />
+    </>
+  ),
+  // Ducha
+  ducha: (
+    <>
+      <path d="M4 21V7a3 3 0 0 1 6 0v1" />
+      <path d="M14 4.5 20.5 11" />
+      <path d="M17.2 4.3a3.8 3.8 0 0 0-5.4 5.4z" />
+      <path d="M8 14v1M12 16v1M16 14v1M10 19v1M14 19v1" />
+    </>
+  ),
+  // Cocineta: mesón con lavaplatos
+  cocineta: (
+    <>
+      <path d="M3 9h18" />
+      <path d="M4 9v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9" />
+      <circle cx="8.5" cy="14" r="2" />
+      <path d="M15 13h4M15 16h4" />
+      <path d="M8.5 9V6.5a2.5 2.5 0 0 1 2.5-2.5" />
+    </>
+  ),
+  // Carga pesada sobre el piso
+  carga: (
+    <>
+      <path d="M4 20h16" />
+      <path d="M7 16.5 9 6h6l2 10.5z" />
+      <path d="M8.2 11h7.6" />
+    </>
+  ),
   // Puerta
   puerta: (
     <>

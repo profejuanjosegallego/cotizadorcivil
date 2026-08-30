@@ -103,14 +103,14 @@ export const ESPACIOS: Espacio[] = [
     nombre: "Estudio",
     icono: "muro",
     resumen:
-      "Quitar el muro actual y cerrar el estudio, dejando el cuarto útil aislado del apartamento.",
+      "Devolver el muro a su posición original para que el estudio recupere el área que le quitaron.",
     intencion:
-      "Hoy el estudio y el cuarto útil están comunicados. Queremos separarlos por completo: tumbar el muro que está y levantar uno nuevo, ciego y de muro a muro, para que el estudio quede cerrado y el cuarto útil sólo se use desde el corredor del edificio. Además, su lámpara de techo.",
+      "La dueña anterior corrió el muro hacia el estudio para agrandar el cuarto útil y alquilarlo aparte. Queremos deshacer eso: demoler el muro donde está hoy y levantarlo en su posición original, para que el estudio vuelva a sus dimensiones. Además, su lámpara de techo.",
     fotos: [
       {
         src: "/img/estudio.jpg",
-        alt: "Estudio actual con el muro y la columna",
-        pie: "Estado actual del estudio. El muro que da hacia el cuarto útil es el que se interviene.",
+        alt: "Estudio actual con el muro corrido y la columna",
+        pie: "Estado actual del estudio. El muro del fondo es el que se corrió hacia adentro y hay que devolver a su sitio.",
       },
     ],
     referencias: [
@@ -125,27 +125,36 @@ export const ESPACIOS: Espacio[] = [
         id: "est-demolicion",
         titulo: "Demolición y retiro del muro actual",
         detalle:
-          "Demoler el muro existente entre el estudio y el cuarto útil, retirar el material y dejar el área limpia. Incluye protección del piso y de los espacios vecinos.",
+          "Demoler el muro que hoy divide el estudio del cuarto útil, retirar el material y dejar el área limpia. Incluye protección del piso y de los espacios vecinos.",
         unidad: "m2",
         icono: "muro",
         destacado: true,
       },
       {
-        id: "est-division",
-        titulo: "Muro nuevo, ciego y de muro a muro",
+        id: "est-muro-original",
+        titulo: "Muro nuevo en la posición original",
         detalle:
-          "Levantar el muro nuevo de piso a cielo y de lado a lado, sin puerta ni vano: el cuarto útil queda completamente separado del apartamento. Mampostería o drywall, según lo que el contratista recomiende, con su acabado listo para estuco y pintura.",
+          "Levantar el muro de piso a cielo donde estaba originalmente, sin puerta ni vano: al cuarto útil se sigue entrando por el corredor del edificio. Mampostería o drywall, según lo que el contratista recomiende, con su acabado listo para estuco y pintura.",
         unidad: "m2",
         icono: "muro",
         destacado: true,
       },
       {
-        id: "est-aislamiento",
-        titulo: "Sellado y aislamiento del muro nuevo",
+        id: "est-piso-recuperado",
+        titulo: "Empate de piso en la franja recuperada",
         detalle:
-          "Sellar bien encuentros con piso, cielo y muros laterales. Al ser un muro hacia una zona común, nos interesa que aísle ruido, polvo y olores.",
+          "Donde estaba el muro viejo y en la franja que vuelve al estudio, empatar el piso con el enchape existente para que quede continuo, a nivel y sin línea visible.",
+        unidad: "m2",
+        icono: "baldosa",
+        destacado: true,
+      },
+      {
+        id: "est-cielo-cornisa",
+        titulo: "Empate de cielo, cornisa y guarda escoba",
+        detalle:
+          "Continuar cornisa, cielo y guarda escoba en la franja recuperada, de modo que no se vea dónde estaba el muro anterior.",
         unidad: "ml",
-        icono: "puerta",
+        icono: "pintura",
       },
       {
         id: "est-electrico",
@@ -168,15 +177,15 @@ export const ESPACIOS: Espacio[] = [
         id: "est-remates",
         titulo: "Resane y remates de la zona intervenida",
         detalle:
-          "Cornisa, guarda escoba y empates de piso y cielo donde estaba el muro viejo, para que no se note dónde quedaba.",
+          "Resane de muros, cielo y encuentros donde estaba el muro viejo, listo para estuco y pintura.",
         unidad: "global",
         icono: "pintura",
       },
     ],
     notas: [
-      "El cuarto útil se entra por el corredor común del edificio, no desde adentro del apartamento. El muro nuevo no lleva puerta.",
+      "Hay que ubicar en sitio dónde quedaba el muro original: casi siempre se alcanza a ver la huella en el piso, en el cielo o en el corte de la cornisa. De ahí sale la medida real de la franja que se recupera.",
+      "El muro nuevo no lleva puerta: los dos espacios ya están separados y al cuarto útil se entra por el corredor del edificio.",
       "El sistema constructivo (bloque, ladrillo o drywall) queda a recomendación del contratista: nos interesa el resultado, no el material específico.",
-      "Nos importa que al terminar no se vea la huella del muro anterior ni en el piso ni en el cielo.",
     ],
   },
   {
@@ -184,28 +193,71 @@ export const ESPACIOS: Espacio[] = [
     nombre: "Cuarto útil",
     icono: "estanteria",
     resumen:
-      "Estantería con rieles a diseño del equipo de Óscar y baldosa nueva en el piso.",
+      "Retirar la cocineta, el baño y la ducha, y dejarlo con baldosa resistente y estantería con rieles.",
     intencion:
-      "El cuarto útil queda aislado del apartamento y se entra por el corredor del edificio. Queremos que deje de ser un depósito improvisado: piso enchapado y un sistema de estantería con rieles que se pueda reconfigurar según lo que se guarde.",
+      "El cuarto útil hoy tiene cocineta, baño y ducha porque la dueña anterior lo acondicionó para alquilar. Queremos sacar todo eso, devolverlo a sus dimensiones originales y dejarlo como lo que es: un depósito bien resuelto, con piso resistente y una estantería con rieles que se pueda reconfigurar.",
     fotos: [],
     referencias: [],
     items: [
       {
-        id: "cu-estanteria",
-        titulo: "Estantería con rieles — diseño del equipo de Óscar",
+        id: "cu-desmonte-cocineta",
+        titulo: "Desmonte y retiro de la cocineta",
         detalle:
-          "Sistema de rieles verticales anclados al muro, con soportes y entrepaños regulables en altura. El diseño y la distribución los propone el equipo de Óscar; queremos ver la propuesta antes de ejecutar.",
-        unidad: "ml",
-        icono: "estanteria",
+          "Retiro del mesón, el lavaplatos, los gabinetes y todo lo que compone la cocineta, con evacuación del material.",
+        unidad: "global",
+        icono: "cocineta",
         destacado: true,
       },
       {
-        id: "cu-baldosa",
-        titulo: "Suministro e instalación de baldosa en piso",
+        id: "cu-desmonte-bano",
+        titulo: "Desmonte y retiro del baño y la ducha",
         detalle:
-          "Enchape del piso del cuarto útil. Preferimos una baldosa clara y resistente, fácil de limpiar.",
+          "Retiro de sanitario, lavamanos, ducha, división o cortinero, puerta si la tiene, y de los muros o poyos que se hayan levantado para armar el baño.",
+        unidad: "global",
+        icono: "bano",
+        destacado: true,
+      },
+      {
+        id: "cu-anulacion-puntos",
+        titulo: "Anulación y sellado de puntos hidráulicos, sanitarios y de gas",
+        detalle:
+          "Cerrar y sellar en debida forma las acometidas de agua, el desagüe del sanitario y el de la ducha, y el punto de gas si existe. El desagüe debe quedar sellado y sin olores. Dejar registro fotográfico de cómo quedó antes de tapar.",
+        unidad: "global",
+        icono: "ducha",
+        destacado: true,
+      },
+      {
+        id: "cu-retiro-enchapes",
+        titulo: "Retiro de enchapes y resane de muros",
+        detalle:
+          "Picar y retirar el enchape de muro del baño y del salpicadero de la cocineta, y resanar toda la superficie para dejarla lista para estuco y pintura.",
         unidad: "m2",
-        icono: "baldosa",
+        icono: "muro",
+      },
+      {
+        id: "cu-electrico",
+        titulo: "Anulación o traslado de los puntos eléctricos de los servicios",
+        detalle:
+          "Anular o reubicar los tomas, interruptores y salidas que quedaron de la cocineta y el baño, dejando el cuarto con la iluminación y los tomas que sí necesita.",
+        unidad: "global",
+        icono: "electrico",
+      },
+      {
+        id: "cu-baldosa",
+        titulo: "Baldosa resistente en el piso",
+        detalle:
+          "Piso de alto tráfico: porcelánico o gres de buena dureza, que aguante peso y arrastre, porque aquí se guardan cosas pesadas. Instalado sobre contrapiso nivelado y con pegante para alto tráfico. Por favor proponer la referencia y decir en observaciones qué resistencia tiene.",
+        unidad: "m2",
+        icono: "carga",
+        destacado: true,
+      },
+      {
+        id: "cu-estanteria",
+        titulo: "Estantería con rieles — diseño del equipo de Óscar",
+        detalle:
+          "Sistema de rieles verticales anclados al muro, con ménsulas y entrepaños regulables en altura, como el esquema de esta página. Debe soportar carga: por favor indicar en observaciones cuántos kilos aguanta cada entrepaño.",
+        unidad: "ml",
+        icono: "estanteria",
         destacado: true,
       },
       {
@@ -217,8 +269,9 @@ export const ESPACIOS: Espacio[] = [
       },
     ],
     notas: [
-      "El acceso es por el corredor común del edificio. Hay que coordinar con la administración los horarios y el manejo de materiales por zonas comunes.",
-      "Necesitamos que el equipo de Óscar mande el diseño de la estantería (medidas y distribución de entrepaños) antes de comprar material.",
+      "El acceso es por el corredor común del edificio. Hay que coordinar con la administración los horarios y el manejo de escombros y materiales por zonas comunes.",
+      "Antes de sellar los desagües avísenos: queremos ver cómo quedan, porque un sellado mal hecho después huele.",
+      "Necesitamos que el equipo de Óscar mande el diseño de la estantería, con medidas y capacidad de carga, antes de comprar material.",
       "Si la baldosa la escogemos nosotros, por favor separar en la cotización el valor del material y el de la mano de obra.",
     ],
   },

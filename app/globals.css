@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: theme("colors.paper");
+  color: theme("colors.ink");
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer components {
+  .rule {
+    @apply border-t border-line;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-muted;
+  }
+
+  .card {
+    @apply rounded-xl border border-line bg-white;
+  }
+
+  /* 16px en móvil: por debajo de eso iOS hace zoom al enfocar el campo. */
+  .field {
+    @apply w-full rounded-lg border border-line bg-white px-3 py-2.5 text-[16px] outline-none
+           transition-colors placeholder:text-muted/60
+           focus:border-clay focus:ring-2 focus:ring-clay/15
+           sm:py-2 sm:text-sm;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-white
+           px-4 py-2.5 text-sm transition-colors hover:border-ink/30 hover:bg-paper;
+  }
+}
+
+/* En pantallas táctiles no hay hover: el resaltado del plano sólo estorba. */
+@media (hover: none) {
+  .plano-zona:hover .plano-fill {
+    fill: transparent;
+  }
+}
+
+/* --- Plano --- */
+.plano-zona {
+  cursor: pointer;
+  transition: fill 160ms ease;
+}
+
+.plano-zona:hover .plano-fill,
+.plano-zona:focus-visible .plano-fill {
+  fill: #f6ede7;
+}
+
+.plano-zona:focus-visible {
+  outline: none;
+}
+
+.plano-zona:focus-visible .plano-borde {
+  stroke: #b4633a;
+  stroke-width: 3;
+}
+
+/* --- Impresión: la cotización debe salir limpia en papel/PDF --- */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .print-break {
+    break-inside: avoid;
+  }
+
+  a[href]::after {
+    content: "";
+  }
+}

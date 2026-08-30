@@ -183,10 +183,11 @@ export const BORDES_ABIERTOS = [
 ];
 
 /**
- * Barra americana: sale en voladizo del mesón de la cocina hacia la entrada,
- * apoyada al final en una pata metálica. Se puede rodear por los dos lados.
+ * Barra americana: va en el sentido del corredor, sobre el borde de la cocina.
+ * Arranca pegada a la columna del mesón y termina en voladizo, apoyada en una
+ * pata metálica. Se pasa a la cocina rodeándola por el extremo libre.
  */
-export const BARRA = { x: 638, y: 58, w: 15, h: 92 };
+export const BARRA = { x: 597, y: 117, w: 115, h: 14 };
 
 /** Muro actual entre estudio y cuarto útil (el que corrió la dueña anterior). */
 export const MURO_ACTUAL_Y = 337;

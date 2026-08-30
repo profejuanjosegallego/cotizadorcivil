@@ -197,9 +197,16 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
               stroke={INK}
               strokeWidth="2"
             />
-            {/* Pata metálica del extremo libre */}
-            <circle cx={BARRA.x + BARRA.w / 2} cy={BARRA.y + BARRA.h - 6} r="4" fill={INK} opacity="0.55" />
-            <text x="700" y="100" textAnchor="middle" fontSize="10" fill={INK} opacity="0.5">
+            {/* Pata metálica del extremo libre, del lado de la puerta */}
+            <circle cx={BARRA.x + BARRA.w - 7} cy={BARRA.y + BARRA.h / 2} r="4" fill={INK} opacity="0.55" />
+            <text
+              x={BARRA.x + BARRA.w / 2}
+              y={BARRA.y + BARRA.h + 16}
+              textAnchor="middle"
+              fontSize="10"
+              fill={INK}
+              opacity="0.5"
+            >
               barra americana
             </text>
             {/* Arcos de puerta */}

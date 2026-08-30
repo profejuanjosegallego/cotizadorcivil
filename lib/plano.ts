@@ -32,7 +32,7 @@ export type Zona = {
   h: number;
 };
 
-export const VIEWBOX = "0 0 830 505";
+export const VIEWBOX = "0 0 820 474";
 /** Ancho mínimo en píxeles para que el plano siga siendo legible en el celular. */
 export const PLANO_MIN_ANCHO = 660;
 

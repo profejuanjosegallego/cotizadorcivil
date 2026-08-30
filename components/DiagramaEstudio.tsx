@@ -9,7 +9,7 @@ import { CLAY, INK, MOSS, PAPER } from "@/lib/plano";
 export default function DiagramaEstudio() {
   return (
     <figure className="card overflow-hidden">
-      <div className="-mx-px overflow-x-auto">
+      <div className="min-w-0 overflow-x-auto">
         <svg
           viewBox="0 0 620 330"
           style={{ minWidth: 560 }}

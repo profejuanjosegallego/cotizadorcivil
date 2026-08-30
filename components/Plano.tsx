@@ -3,17 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Icono from "@/components/Iconos";
-import {
-  CLAY,
-  INK,
-  MARCAS,
-  MOSS,
-  PAPER,
-  PLANO_MIN_ANCHO,
-  VANOS,
-  VIEWBOX,
-  ZONAS,
-} from "@/lib/plano";
+import { CLAY, INK, MARCAS, PAPER, PLANO_MIN_ANCHO, VANOS, VIEWBOX, ZONAS } from "@/lib/plano";
 
 export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
   const router = useRouter();
@@ -24,9 +14,11 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
   };
 
   return (
-    <div className="w-full">
+    // min-w-0: sin esto el ancho mínimo del SVG ensancha la grilla y la página
+    // entera se desborda en horizontal en el celular.
+    <div className="w-full min-w-0">
       {/* En el celular el plano se desplaza en horizontal para no volverse ilegible */}
-      <div className="-mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0">
+      <div className="-mx-5 min-w-0 overflow-x-auto px-5 sm:mx-0 sm:px-0">
         <svg
           viewBox={VIEWBOX}
           style={{ minWidth: PLANO_MIN_ANCHO }}
@@ -260,32 +252,22 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
             </g>
           ))}
 
-          {/* Aclaración del cuarto útil */}
-          <g style={{ pointerEvents: "none" }}>
-            <text x="478" y="478" fontSize="11" fill={MOSS} letterSpacing="0.4">
-              El cuarto útil no se comunica con el apartamento:
-            </text>
-            <text x="478" y="493" fontSize="11" fill={MOSS} letterSpacing="0.4">
-              se entra por el corredor del edificio.
-            </text>
-          </g>
-
-          <text
-            x="30"
-            y="493"
-            fontSize="11"
-            letterSpacing="1.2"
-            fill={INK}
-            opacity="0.4"
-            style={{ pointerEvents: "none" }}
-          >
-            ESQUEMA · NO A ESCALA
-          </text>
         </svg>
       </div>
 
-      <p className="no-print mt-3 text-center text-[11.5px] text-muted sm:hidden">
-        Deslice el plano para verlo completo →
+      {/* Fuera del SVG: en el celular estas dos líneas quedarían fuera de vista */}
+      <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <p className="flex items-start gap-2 text-[12px] leading-snug text-moss">
+          <span aria-hidden className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-moss" />
+          El cuarto útil no se comunica con el apartamento: se entra por el corredor del edificio.
+        </p>
+        <p className="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+          Esquema · no a escala
+        </p>
+      </div>
+
+      <p className="no-print mt-2 text-[11.5px] text-muted sm:hidden">
+        Deslice el plano en horizontal para verlo completo →
       </p>
 
       {conLeyenda && (

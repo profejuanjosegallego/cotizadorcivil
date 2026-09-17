@@ -93,10 +93,11 @@ export const ESPACIOS: Espacio[] = [
     slug: "banos",
     nombre: "Baños",
     icono: "grifo",
-    resumen: "Lavamanos con mueble en los dos baños y arreglo de la cabina de la ducha.",
+    resumen: "Lavamanos con mueble en los dos baños y cabina de la ducha. Faltan los espejos.",
     intencion:
-      "Son dos baños: el social, que da al corredor, y el de la habitación principal. En los dos se cambia el lavamanos por un combo con mueble. La cabina de la ducha se limpia y se vuelve a siliconar.",
+      "Son dos baños: el social, que da al corredor, y el de la habitación principal. En los dos se cambió el lavamanos por un combo con mueble y la cabina de la ducha se limpió y se volvió a siliconar. Faltan por cotizar los espejos de los dos baños.",
     referencias: [],
+    pendientes: ["Espejos en los dos baños"],
     notas: [
       "La cabina cotizada es una sola: confirmar con Óscar en cuál de los dos baños se hizo.",
       "En el plano sólo está dibujado el baño social; el de la habitación principal queda dentro de ella.",
@@ -106,9 +107,10 @@ export const ESPACIOS: Espacio[] = [
     slug: "corredor",
     nombre: "Corredor",
     icono: "luzIndirecta",
-    resumen: "Pendiente de cotizar: luces indirectas para los cuadros y moldura de madera.",
+    resumen:
+      "Pendiente de confirmar por Óscar: luces indirectas, moldura de madera junto al balcón, entrepaños y cajas para tomas.",
     intencion:
-      "Iluminar con apliques dirigidos el muro que queda entre la habitación principal y el estudio, donde van a ir los cuadros, como en la referencia. Además, una moldura de madera.",
+      "Iluminar con apliques dirigidos el muro que queda entre la habitación principal y el estudio, donde van a ir los cuadros, como en la referencia. Además, una moldura de madera en el muro al lado del balcón, entrepaños, y las cajas para los tomas eléctricos que hagan falta.",
     referencias: [
       {
         src: "/img/ref-lampara-indirecta.jpg",
@@ -118,9 +120,13 @@ export const ESPACIOS: Espacio[] = [
     ],
     pendientes: [
       "Luces indirectas para los cuadros del muro del corredor",
-      "Moldura de madera (ubicación por confirmar)",
+      "Moldura de madera en el muro al lado del balcón",
+      "Entrepaños",
+      "Cajas para tomas eléctricos",
     ],
-    notas: ["Óscar todavía no envía la cotización de estos dos trabajos. Cuando llegue, se agrega aquí."],
+    notas: [
+      "Estos cuatro trabajos están pendientes de que Óscar los confirme y los cotice. Cuando llegue la cotización, se agrega aquí.",
+    ],
   },
   {
     slug: "balcon",

@@ -42,7 +42,11 @@ export default async function ResumenPage() {
   const terminadas = TODAS_LAS_LINEAS.filter(
     (l) => seguimiento[l.id]?.estado === "terminado",
   ).length;
-  const avance = Math.round((terminadas / TODAS_LAS_LINEAS.length) * 100);
+  // El avance se mide sobre toda la obra: lo cotizado más lo que falta por
+  // cotizar. Si no, con todo lo cotizado terminado daría 100 % y no es cierto.
+  const porCotizar = ESPACIOS.reduce((a, e) => a + (e.pendientes?.length ?? 0), 0);
+  const totalTrabajos = TODAS_LAS_LINEAS.length + porCotizar;
+  const avance = Math.round((terminadas / totalTrabajos) * 100);
 
   const porEspacio = ESPACIOS.map((e) => {
     const lineas = lineasDeEspacio(e.slug);
@@ -141,6 +145,9 @@ export default async function ResumenPage() {
               style={{ width: `${avance}%` }}
             />
           </div>
+          <p className="mt-1.5 text-[11.5px] leading-snug text-muted">
+            {terminadas} de {totalTrabajos} trabajos · {porCotizar} sin cotizar
+          </p>
         </div>
       </section>
 
@@ -391,8 +398,8 @@ export default async function ResumenPage() {
         {pendientes.length > 0 && (
           <p className="mt-5 border-t border-line pt-4 text-[13px] leading-relaxed text-muted">
             Falta por cotizar:{" "}
-            {pendientes.map((e) => e.nombre.toLowerCase()).join(", ")}. Esos
-            valores no están en el total.
+            {pendientes.map((e) => e.nombre.toLowerCase()).join(", ")} ({porCotizar}{" "}
+            trabajos). Esos valores no están en el total.
           </p>
         )}
       </section>

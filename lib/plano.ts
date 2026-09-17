@@ -97,7 +97,7 @@ export const MARCAS: Marca[] = [
     x: 430,
     y: 145,
     icono: "luzIndirecta",
-    titulo: "Luces indirectas para los cuadros y moldura de madera · pendiente de cotizar",
+    titulo: "Luces indirectas, moldura de madera junto al balcón, entrepaños y cajas para tomas · pendiente de cotizar",
   },
   {
     n: 4,
@@ -113,7 +113,7 @@ export const MARCAS: Marca[] = [
     x: 418,
     y: 250,
     icono: "grifo",
-    titulo: "Lavamanos con mueble en los dos baños y cabina de la ducha",
+    titulo: "Lavamanos con mueble en los dos baños y cabina de la ducha · faltan los espejos",
   },
   {
     n: 6,

@@ -1,17 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import EspacioItems from "@/components/EspacioItems";
+import LineasEspacio from "@/components/LineasEspacio";
+import { ListaPagos, TarjetaCotizacion } from "@/components/Pagos";
 import PlanoMini from "@/components/PlanoMini";
 import DiagramaEstudio from "@/components/DiagramaEstudio";
 import DiagramaEstanteria from "@/components/DiagramaEstanteria";
 import Icono from "@/components/Iconos";
 import { ESPACIOS, getEspacio } from "@/lib/obra";
-import { leerCotizaciones } from "@/lib/mongodb";
+import {
+  COTIZACIONES,
+  cotizacionesDeEspacio,
+  cotizadoEnEspacio,
+  lineasDeEspacio,
+  pagosDeEspacio,
+} from "@/lib/cotizaciones";
+import { leerSeguimiento } from "@/lib/mongodb";
+import { formatCOP } from "@/lib/format";
 
-// Sin generateStaticParams a propósito: la ficha lee la cotización guardada en
+// Sin generateStaticParams a propósito: la ficha lee el avance guardado en
 // Mongo en cada visita, así que no puede quedar congelada en el build.
 export const dynamic = "force-dynamic";
+
+const FECHAS = Object.fromEntries(COTIZACIONES.map((c) => [c.numero, c.fecha]));
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const espacio = getEspacio(params.slug);
@@ -23,10 +34,21 @@ export default async function EspacioPage({ params }: { params: { slug: string }
   const espacio = getEspacio(params.slug);
   if (!espacio) notFound();
 
-  const cotizaciones = await leerCotizaciones();
+  const seguimiento = await leerSeguimiento();
   const indice = ESPACIOS.findIndex((e) => e.slug === espacio.slug);
   const anterior = ESPACIOS[indice - 1];
   const siguiente = ESPACIOS[indice + 1];
+
+  const lineas = lineasDeEspacio(espacio.slug);
+  const cotizaciones = cotizacionesDeEspacio(espacio.slug);
+  const pagos = pagosDeEspacio(espacio.slug);
+  const cotizado = cotizadoEnEspacio(espacio.slug);
+  const pendientes = espacio.pendientes ?? [];
+  // Los pagos cubren cotizaciones completas; si alguna reparte líneas entre
+  // varios espacios, hay que decirlo para que el pago no se lea como propio.
+  const compartidas = cotizaciones.filter((c) =>
+    c.lineas.some((l) => l.espacio !== espacio.slug)
+  );
 
   return (
     <main className="mx-auto max-w-content px-5 pb-20 pt-8 sm:px-8 sm:pt-10">
@@ -42,7 +64,12 @@ export default async function EspacioPage({ params }: { params: { slug: string }
         <div className="contents lg:block">
           <div>
             <p className="eyebrow">
-              Espacio {String(indice + 1).padStart(2, "0")} · {espacio.items.length} ítems
+              Espacio {String(indice + 1).padStart(2, "0")} ·{" "}
+              {lineas.length > 0
+                ? `${lineas.length} línea${lineas.length === 1 ? "" : "s"} cotizada${
+                    lineas.length === 1 ? "" : "s"
+                  } · ${formatCOP(cotizado)}`
+                : "Pendiente de cotizar"}
             </p>
             <h1 className="mt-3 flex items-center gap-3 text-[32px] font-semibold leading-[1.08] tracking-[-0.025em] sm:text-[46px]">
               <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-clayfaint text-clay sm:h-12 sm:w-12">
@@ -57,7 +84,7 @@ export default async function EspacioPage({ params }: { params: { slug: string }
 
           {espacio.notas && espacio.notas.length > 0 && (
             <div className="order-last mt-8 rounded-xl border-l-2 border-l-clay bg-clayfaint/60 px-4 py-4 sm:px-5 lg:order-none">
-              <p className="eyebrow text-clay">Antes de cotizar</p>
+              <p className="eyebrow text-clay">Para tener en cuenta</p>
               <ul className="mt-3 space-y-2.5">
                 {espacio.notas.map((n, i) => (
                   <li key={i} className="flex gap-2.5 text-[13.5px] leading-relaxed text-ink/80">
@@ -154,22 +181,81 @@ export default async function EspacioPage({ params }: { params: { slug: string }
         </section>
       )}
 
-      {/* ---------- Cotización ---------- */}
-      <section className="mt-14">
-        <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <p className="eyebrow">Cantidades y costos</p>
-            <h2 className="mt-2.5 text-[21px] font-semibold tracking-tight sm:text-[22px]">
-              Trabajos a cotizar
-            </h2>
+      {/* ---------- Lo cotizado ---------- */}
+      {lineas.length > 0 && (
+        <section className="mt-14">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="eyebrow">Cotizado por Óscar</p>
+              <h2 className="mt-2.5 text-[21px] font-semibold tracking-tight sm:text-[22px]">
+                Trabajos de este espacio
+              </h2>
+            </div>
+            <p className="max-w-sm text-[12.5px] leading-relaxed text-muted">
+              Los valores son los de la cotización. El estado y las observaciones se guardan solos.
+            </p>
           </div>
-          <p className="max-w-sm text-[12.5px] leading-relaxed text-muted">
-            Todo arranca en cero. Se guarda solo, apenas deja de escribir.
-          </p>
-        </div>
 
-        <EspacioItems items={espacio.items} inicial={cotizaciones} />
-      </section>
+          <LineasEspacio lineas={lineas} fechas={FECHAS} inicial={seguimiento} />
+        </section>
+      )}
+
+      {/* ---------- Lo que falta por cotizar ---------- */}
+      {pendientes.length > 0 && (
+        <section className="mt-14">
+          <p className="eyebrow">Pendiente de cotizar</p>
+          <h2 className="mb-5 mt-2.5 text-[21px] font-semibold tracking-tight sm:text-[22px]">
+            Lo que Óscar todavía no ha cotizado
+          </h2>
+          <ul className="card divide-y divide-line">
+            {pendientes.map((p, i) => (
+              <li key={i} className="flex items-start gap-3 px-4 py-3.5 sm:px-5">
+                <span className="mt-0.5 font-mono text-[11px] text-muted">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="flex-1 text-[14px] leading-snug">{p}</span>
+                <span className="shrink-0 rounded-full border border-line px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted">
+                  Sin cotizar
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* ---------- Cotizaciones y pagos ---------- */}
+      {cotizaciones.length > 0 && (
+        <section className="mt-14">
+          <p className="eyebrow">Documentos</p>
+          <h2 className="mb-2.5 mt-2.5 text-[21px] font-semibold tracking-tight sm:text-[22px]">
+            Cotizaciones y pagos de este espacio
+          </h2>
+          <p className="mb-5 max-w-2xl text-[13px] leading-relaxed text-muted">
+            {compartidas.length > 0
+              ? `Los pagos cubren cada cotización completa. La${
+                  compartidas.length === 1 ? "" : "s"
+                } cotización${compartidas.length === 1 ? "" : "es"} ${compartidas
+                  .map((c) => c.numero)
+                  .join(" y ")} incluye${
+                  compartidas.length === 1 ? "" : "n"
+                } también trabajos de otros espacios, así que el pago es mayor que lo cotizado aquí. Las cuentas completas están en la cotización consolidada.`
+              : "Los pagos cubren cada cotización completa. Las cuentas completas están en la cotización consolidada."}
+          </p>
+
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {cotizaciones.map((c) => (
+              <TarjetaCotizacion key={c.numero} cotizacion={c} />
+            ))}
+          </ul>
+
+          {pagos.length > 0 && (
+            <div className="mt-5">
+              <p className="eyebrow mb-3">Pagos</p>
+              <ListaPagos pagos={pagos} />
+            </div>
+          )}
+        </section>
+      )}
 
       {/* ---------- Navegación ---------- */}
       <nav className="no-print mt-12 grid gap-3 border-t border-line pt-7 sm:grid-cols-2">
@@ -194,7 +280,7 @@ export default async function EspacioPage({ params }: { params: { slug: string }
           <Link href="/resumen" className="card group p-4 sm:p-5 sm:text-right">
             <span className="eyebrow">Para terminar</span>
             <span className="mt-1.5 block text-[15px] font-medium tracking-tight transition-colors group-hover:text-clay">
-              Ver la cotización completa →
+              Ver las cuentas completas →
             </span>
           </Link>
         )}

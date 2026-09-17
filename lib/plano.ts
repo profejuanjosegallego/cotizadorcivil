@@ -44,7 +44,8 @@ export const PLANO_MIN_ANCHO = 660;
 
 export const ZONAS: Zona[] = [
   { slug: "balcon", label: "BALCÓN", x: 30, y: 30, w: 109, h: 307 },
-  { slug: "comedor", label: "SALA", sub: "COMEDOR", x: 139, y: 30, w: 280, h: 94 },
+  // Sin ficha: no hay ningún trabajo cotizado en la sala comedor.
+  { slug: null, label: "SALA", sub: "COMEDOR", x: 139, y: 30, w: 280, h: 94 },
   { slug: "cocina", label: "COCINA", x: 419, y: 30, w: 331, h: 94 },
   // El corredor arranca en la puerta principal y llega derecho hasta el balcón:
   // la entrada no es un espacio aparte, es su comienzo.
@@ -58,7 +59,8 @@ export const ZONAS: Zona[] = [
     w: 220,
     h: 115,
   },
-  { slug: null, label: "BAÑO", x: 359, y: 222, w: 119, h: 115 },
+  // Es el baño social. El de la habitación principal no está dibujado.
+  { slug: "banos", label: "BAÑO", x: 359, y: 222, w: 119, h: 115 },
   { slug: "estudio", label: "ESTUDIO", x: 478, y: 222, w: 272, h: 115 },
   { slug: "cuarto-util", label: "CUARTO ÚTIL", x: 478, y: 337, w: 272, h: 119, labelDy: 16 },
 ];
@@ -79,80 +81,55 @@ export const MARCAS: Marca[] = [
     x: 84,
     y: 250,
     icono: "baranda",
-    titulo: "Quitar la malla de gatos y repintar las barandas",
+    titulo: "Pintura de la reja del balcón",
   },
   {
     n: 2,
-    slug: "comedor",
-    x: 210,
-    y: 48,
-    icono: "luz",
-    titulo: "Lámpara colgante sobre la mesa del comedor",
-  },
-  {
-    n: 3,
     slug: "cocina",
     x: 470,
     y: 60,
     icono: "estufa",
-    titulo: "Mantenimiento de la estufa y cambio de la llave del lavaplatos",
+    titulo: "Mortero del horno en microcemento y puesta a punto del gabinete",
   },
   {
-    n: 4,
-    slug: "corredor",
-    x: 205,
-    y: 112,
-    icono: "estanteria",
-    titulo: "Estantería empotrada con luz LED al fondo del corredor",
-  },
-  {
-    n: 5,
+    n: 3,
     slug: "corredor",
     x: 430,
     y: 145,
     icono: "luzIndirecta",
-    titulo:
-      "Apliques de luz indirecta sobre el muro del corredor, entre la habitación principal y el estudio",
+    titulo: "Luces indirectas para los cuadros y moldura de madera · pendiente de cotizar",
   },
   {
-    n: 6,
+    n: 4,
     slug: "habitacion-principal",
     x: 330,
     y: 250,
     icono: "aire",
-    titulo: "Aire acondicionado de 9.000 BTU",
+    titulo: "Aire acondicionado de 12.000 BTU con acometida de 220 V",
   },
   {
-    n: 7,
-    slug: "estudio",
-    x: 700,
-    y: 262,
-    icono: "luz",
-    titulo: "Lámpara LED de techo en el estudio",
+    n: 5,
+    slug: "banos",
+    x: 418,
+    y: 250,
+    icono: "grifo",
+    titulo: "Lavamanos con mueble en los dos baños y cabina de la ducha",
   },
   {
-    n: 8,
+    n: 6,
     slug: "estudio",
     x: 545,
     y: 337,
     icono: "muro",
-    titulo: "Devolver el muro a su posición original y recuperar el área del estudio",
+    titulo: "Demolición del muro con el cuarto útil y reparación del piso y el guarda escoba",
   },
   {
-    n: 9,
-    slug: "cuarto-util",
-    x: 520,
-    y: 405,
-    icono: "carga",
-    titulo: "Baldosa resistente y estantería con rieles en el cuarto útil",
-  },
-  {
-    n: 10,
+    n: 7,
     slug: "cuarto-util",
     x: 703,
     y: 415,
-    icono: "bano",
-    titulo: "Retirar la cocineta, el baño y la ducha que se instalaron para alquilar",
+    icono: "carga",
+    titulo: "Cuarto útil: retiro de servicios, piso y estantería · pendiente de cotizar",
   },
 ];
 
@@ -167,7 +144,7 @@ export const VANOS = [
   { x: 141, y: 119, w: 276, h: 10 }, // sala comedor abierta al corredor
   { x: 414, y: 34, w: 10, h: 86 }, // sala comedor abierta a la cocina
   { x: 597, y: 119, w: 151, h: 10 }, // cocina abierta al corredor, con la barra
-  { x: 134, y: 162, w: 10, h: 52 }, // salida al balcón, junto a la estantería del fondo
+  { x: 134, y: 162, w: 10, h: 52 }, // salida al balcón
   { x: 745, y: 148, w: 10, h: 50 }, // puerta principal del apartamento
   { x: 185, y: 217, w: 52, h: 10 }, // puerta habitación principal
   { x: 398, y: 217, w: 44, h: 10 }, // puerta baño

@@ -2,33 +2,33 @@ import Image from "next/image";
 import Link from "next/link";
 import Plano from "@/components/Plano";
 import Icono from "@/components/Iconos";
-import { ESPACIOS, TODOS_LOS_ITEMS } from "@/lib/obra";
-import { leerCotizaciones } from "@/lib/mongodb";
-import { formatCOP, total } from "@/lib/format";
+import { ESPACIOS } from "@/lib/obra";
+import {
+  PAGOS,
+  TODAS_LAS_LINEAS,
+  TOTAL_COTIZADO,
+  TOTAL_PAGADO,
+  cotizadoEnEspacio,
+  lineasDeEspacio,
+} from "@/lib/cotizaciones";
+import { leerSeguimiento } from "@/lib/mongodb";
+import { formatCOP, formatDiferencia } from "@/lib/format";
 import type { IconoNombre } from "@/lib/plano";
 
 export const dynamic = "force-dynamic";
 
 const LEYENDA: { icono: IconoNombre; texto: string }[] = [
   { icono: "muro", texto: "Muro que se demuele o se construye" },
-  { icono: "luz", texto: "Punto de luz nuevo" },
-  { icono: "estanteria", texto: "Mueble o estantería a la medida" },
-  { icono: "baldosa", texto: "Piso o enchape nuevo" },
-  { icono: "bano", texto: "Cocineta, baño y ducha que se retiran" },
+  { icono: "grifo", texto: "Lavamanos y cabina de baño" },
+  { icono: "aire", texto: "Aire acondicionado" },
+  { icono: "luzIndirecta", texto: "Luces para los cuadros · pendiente de cotizar" },
+  { icono: "bano", texto: "Cocineta, baño y ducha que se retiran · pendiente de cotizar" },
 ];
 
 export default async function Home() {
-  const cotizaciones = await leerCotizaciones();
-
-  const conPrecio = TODOS_LOS_ITEMS.filter((i) => {
-    const c = cotizaciones[i.id];
-    return total(c?.cantidad ?? null, c?.valorUnitario ?? null) !== null;
-  }).length;
-
-  const granTotal = TODOS_LOS_ITEMS.reduce((acc, i) => {
-    const c = cotizaciones[i.id];
-    return acc + (total(c?.cantidad ?? null, c?.valorUnitario ?? null) ?? 0);
-  }, 0);
+  const seguimiento = await leerSeguimiento();
+  const diferencia = TOTAL_PAGADO - TOTAL_COTIZADO;
+  const pendientes = ESPACIOS.filter((e) => (e.pendientes?.length ?? 0) > 0).length;
 
   return (
     <main>
@@ -36,18 +36,18 @@ export default async function Home() {
       <section className="mx-auto max-w-content px-5 pb-14 pt-10 sm:px-8 sm:pt-20">
         <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
           <div>
-            <p className="eyebrow">Edificio Belo Horizonte · Alcance de obra</p>
+            <p className="eyebrow">Edificio Belo Horizonte · Obra en curso</p>
             <h1 className="mt-4 text-[32px] font-semibold leading-[1.08] tracking-[-0.025em] sm:text-[54px]">
-              Todo lo que queremos
+              Lo que se cotizó,
               <br />
-              hacer en el apartamento,
+              lo que se pagó,
               <br />
               <span className="text-clay">espacio por espacio.</span>
             </h1>
             <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted sm:text-[15.5px]">
-              Esta página existe para que no haya que adivinar nada. Cada espacio tiene fotos del
-              estado actual, las referencias de lo que queremos lograr, y el listado de trabajos
-              desglosado para que usted ponga cantidades y precios directamente aquí.
+              Esta página lleva las cuentas de la obra. Cada espacio muestra qué cotizó Óscar, con
+              qué transferencia se pagó y cómo va el trabajo. Las cotizaciones y los comprobantes
+              se pueden descargar.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -58,28 +58,27 @@ export default async function Home() {
                 Ver el plano <span aria-hidden>↓</span>
               </Link>
               <Link href="/resumen" className="btn-ghost py-3.5">
-                Ir a la cotización <span aria-hidden>→</span>
+                Ver las cuentas <span aria-hidden>→</span>
               </Link>
             </div>
 
             <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-line pt-6 sm:gap-6 sm:pt-7">
               <div>
-                <dt className="eyebrow">Espacios</dt>
-                <dd className="mt-1 font-mono text-xl font-semibold tracking-tight sm:text-2xl">
-                  {ESPACIOS.length}
+                <dt className="eyebrow">Cotizado</dt>
+                <dd className="mt-1 font-mono text-[17px] font-semibold tracking-tight sm:text-2xl">
+                  {formatCOP(TOTAL_COTIZADO)}
                 </dd>
               </div>
               <div>
-                <dt className="eyebrow">Ítems</dt>
-                <dd className="mt-1 font-mono text-xl font-semibold tracking-tight sm:text-2xl">
-                  {TODOS_LOS_ITEMS.length}
+                <dt className="eyebrow">Pagado</dt>
+                <dd className="mt-1 font-mono text-[17px] font-semibold tracking-tight sm:text-2xl">
+                  {formatCOP(TOTAL_PAGADO)}
                 </dd>
               </div>
               <div>
-                <dt className="eyebrow">Cotizados</dt>
-                <dd className="mt-1 font-mono text-xl font-semibold tracking-tight sm:text-2xl">
-                  {conPrecio}
-                  <span className="text-muted">/{TODOS_LOS_ITEMS.length}</span>
+                <dt className="eyebrow">{diferencia >= 0 ? "Pagado de más" : "Por pagar"}</dt>
+                <dd className="mt-1 font-mono text-[17px] font-semibold tracking-tight text-clay sm:text-2xl">
+                  {formatDiferencia(diferencia)}
                 </dd>
               </div>
             </dl>
@@ -113,8 +112,8 @@ export default async function Home() {
                 Dónde queda cada cosa
               </h2>
               <p className="mt-4 text-[14.5px] leading-relaxed text-muted sm:text-[15px]">
-                Toque cualquier espacio del plano o cualquier número para abrir su ficha, con fotos,
-                referencias y el formulario de cotización.
+                Toque cualquier espacio del plano o cualquier número para abrir su ficha, con lo
+                que se cotizó, los pagos y el avance.
               </p>
 
               <ul className="mt-7 space-y-3 border-t border-line pt-6 text-[13px] text-muted">
@@ -158,17 +157,16 @@ export default async function Home() {
             </h2>
           </div>
           <Link href="/resumen" className="btn-ghost">
-            Ver todo junto <span aria-hidden>→</span>
+            Ver las cuentas <span aria-hidden>→</span>
           </Link>
         </div>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {ESPACIOS.map((e) => {
-            const subtotal = e.items.reduce((acc, i) => {
-              const c = cotizaciones[i.id];
-              return acc + (total(c?.cantidad ?? null, c?.valorUnitario ?? null) ?? 0);
-            }, 0);
-            const listos = e.items.filter((i) => cotizaciones[i.id]?.estado === "terminado").length;
+            const lineas = lineasDeEspacio(e.slug);
+            const subtotal = cotizadoEnEspacio(e.slug);
+            const listos = lineas.filter((l) => seguimiento[l.id]?.estado === "terminado").length;
+            const sinCotizar = e.pendientes?.length ?? 0;
 
             return (
               <Link
@@ -193,16 +191,18 @@ export default async function Home() {
                 </p>
                 <div className="mt-4 flex items-center justify-between border-t border-line pt-3 font-mono text-[11px] text-muted">
                   <span>
-                    {e.items.length} ítem{e.items.length === 1 ? "" : "s"}
+                    {lineas.length > 0
+                      ? `${lineas.length} línea${lineas.length === 1 ? "" : "s"}`
+                      : `${sinCotizar} pendiente${sinCotizar === 1 ? "" : "s"}`}
                     {listos > 0 && (
                       <span className="text-moss">
                         {" "}
-                        · {listos} listo{listos === 1 ? "" : "s"}
+                        · {listos} lista{listos === 1 ? "" : "s"}
                       </span>
                     )}
                   </span>
-                  <span className={subtotal > 0 ? "text-ink" : ""}>
-                    {subtotal > 0 ? formatCOP(subtotal) : "Sin cotizar"}
+                  <span className={lineas.length > 0 ? "text-ink" : "text-clay"}>
+                    {lineas.length > 0 ? formatCOP(subtotal) : "Sin cotizar"}
                   </span>
                 </div>
               </Link>
@@ -214,7 +214,7 @@ export default async function Home() {
       {/* ---------- Cómo usar ---------- */}
       <section className="border-t border-line bg-white">
         <div className="mx-auto max-w-content px-5 py-14 sm:px-8 sm:py-20">
-          <p className="eyebrow">Para el contratista</p>
+          <p className="eyebrow">Cómo funciona</p>
           <h2 className="mt-3 max-w-2xl text-[26px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">
             Cómo usar esta página
           </h2>
@@ -223,18 +223,18 @@ export default async function Home() {
             {[
               {
                 n: "01",
-                t: "Entienda la intención",
-                d: "Cada espacio explica no sólo qué se hace, sino qué queremos lograr, con las fotos del estado actual y las referencias de lo que nos gusta.",
+                t: "Qué se cotizó",
+                d: `Las ${TODAS_LAS_LINEAS.length} líneas de las cotizaciones de Óscar están repartidas por espacio, con mano de obra y materiales por separado, tal como él las envió. La cotización original se descarga desde cada ficha.`,
               },
               {
                 n: "02",
-                t: "Ponga cantidades y precios",
-                d: "Todo arranca en cero. En cada ítem escriba la cantidad medida en sitio y el valor unitario: el total se calcula solo y se guarda apenas termina de escribir.",
+                t: "Qué se pagó",
+                d: `Los ${PAGOS.length} pagos están cruzados con la cotización que cubrieron. En las cuentas se ve cuál cuadra exacto y cuál quedó con diferencia, y cada comprobante se puede descargar.`,
               },
               {
                 n: "03",
-                t: "Use las observaciones",
-                d: "Si algo no aplica, si propone otra solución o si el precio depende de algo, escríbalo en observaciones. Ahí es donde se evitan los malentendidos.",
+                t: "Marque el avance",
+                d: "En cada línea se puede marcar Pendiente, En proceso o Terminado y dejar observaciones. Es una ayuda para llevar la obra, no un control: se guarda solo.",
               },
             ].map((p) => (
               <li key={p.n}>
@@ -247,16 +247,21 @@ export default async function Home() {
 
           <div className="mt-12 flex flex-col gap-5 rounded-xl border border-ink/15 bg-paper px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <div>
-              <p className="eyebrow">Total cotizado hasta ahora</p>
+              <p className="eyebrow">Pagado hasta ahora</p>
               <p className="mt-1.5 font-mono text-[28px] font-semibold tracking-tight sm:text-3xl">
-                {formatCOP(granTotal || null)}
+                {formatCOP(TOTAL_PAGADO)}
+              </p>
+              <p className="mt-1.5 text-[12.5px] text-muted">
+                Sobre {formatCOP(TOTAL_COTIZADO)} cotizados
+                {pendientes > 0 &&
+                  ` · ${pendientes} espacio${pendientes === 1 ? "" : "s"} sin cotizar todavía`}
               </p>
             </div>
             <Link
               href="/resumen"
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-ink px-5 py-3.5 text-sm font-medium text-white transition-opacity hover:opacity-85"
             >
-              Abrir la cotización completa <span aria-hidden>→</span>
+              Abrir las cuentas completas <span aria-hidden>→</span>
             </Link>
           </div>
         </div>

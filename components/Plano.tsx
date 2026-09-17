@@ -234,46 +234,29 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
             <line x1="34" y1="34" x2="34" y2="333" stroke={CLAY} strokeWidth="4" />
             <line x1="41" y1="34" x2="41" y2="333" stroke={CLAY} strokeWidth="1" opacity="0.6" />
 
-            {/* 2 y 7 · Puntos de luz nuevos */}
-            {[
-              [350, 77],
-              [555, 265],
-            ].map(([cx, cy]) => (
-              <g key={`${cx}-${cy}`} stroke={CLAY} strokeWidth="1.8">
-                <circle cx={cx} cy={cy} r="10" fill="none" />
-                <line x1={cx - 15} y1={cy} x2={cx + 15} y2={cy} />
-                <line x1={cx} y1={cy - 15} x2={cx} y2={cy + 15} />
-              </g>
-            ))}
-
-            {/* 3 · Cocina: estufa y lavaplatos sobre el mesón */}
+            {/* 2 · Cocina: el mesón del horno (mortero) y el gabinete que se repara */}
+            <rect x="530" y="34" width="120" height="26" fill={CLAY} opacity="0.18" stroke={CLAY} strokeWidth="1.6" />
             <rect x="530" y="34" width="120" height="26" fill="none" stroke={CLAY} strokeWidth="1.6" />
-            <g fill={CLAY}>
-              <circle cx="548" cy="41" r="3.4" />
-              <circle cx="566" cy="41" r="3.4" />
-              <circle cx="548" cy="53" r="3.4" />
-              <circle cx="566" cy="53" r="3.4" />
-            </g>
-            <circle cx="620" cy="47" r="9" fill="none" stroke={CLAY} strokeWidth="1.6" />
-            <path d="M620 38 v-6 h10" fill="none" stroke={CLAY} strokeWidth="1.6" />
+            <line x1="560" y1="34" x2="560" y2="60" stroke={CLAY} strokeWidth="1" opacity="0.6" />
+            <line x1="590" y1="34" x2="590" y2="60" stroke={CLAY} strokeWidth="1" opacity="0.6" />
+            <line x1="620" y1="34" x2="620" y2="60" stroke={CLAY} strokeWidth="1" opacity="0.6" />
 
-            {/* 4 · Estantería al fondo, contra el muro del balcón y junto a su puerta */}
-            <rect x="143" y="92" width="26" height="60" fill="none" stroke={CLAY} strokeWidth="2.2" />
-            <line x1="143" y1="112" x2="169" y2="112" stroke={CLAY} strokeWidth="1.3" />
-            <line x1="143" y1="132" x2="169" y2="132" stroke={CLAY} strokeWidth="1.3" />
+            {/* 5 · Lavamanos con mueble en el baño social */}
+            <rect x="366" y="300" width="44" height="14" fill="none" stroke={CLAY} strokeWidth="1.6" />
+            <ellipse cx="388" cy="307" rx="12" ry="5" fill="none" stroke={CLAY} strokeWidth="1.3" />
 
-            {/* 5 · Muro del corredor con apliques dirigidos */}
+            {/* 3 · Muro del corredor con apliques dirigidos (pendiente de cotizar) */}
             <line x1="365" y1="220" x2="472" y2="220" stroke={CLAY} strokeWidth="5.5" />
             <circle cx="392" cy="203" r="4.5" fill={CLAY} />
             <circle cx="445" cy="203" r="4.5" fill={CLAY} />
             <path d="M392 208 L386 217M392 208 L398 217" stroke={CLAY} strokeWidth="1.2" />
             <path d="M445 208 L439 217M445 208 L451 217" stroke={CLAY} strokeWidth="1.2" />
 
-            {/* 6 · Aire acondicionado sobre el muro exterior de la habitación */}
+            {/* 4 · Aire acondicionado sobre el muro exterior de la habitación */}
             <rect x="250" y="327" width="70" height="11" fill={CLAY} opacity="0.85" />
             <path d="M262 322 q6 -7 12 0 M286 322 q6 -7 12 0" fill="none" stroke={CLAY} strokeWidth="1.4" />
 
-            {/* 8 · El muro vuelve a su posición original y el estudio recupera esa franja */}
+            {/* 6 · El muro vuelve a su posición original y el estudio recupera esa franja */}
             <rect
               x="480"
               y={MURO_ACTUAL_Y + 2}
@@ -306,7 +289,7 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
             {/* Muro nuevo, en la posición original */}
             <rect x="478" y={MURO_ORIGINAL_Y - 5} width="272" height="11" fill={CLAY} />
 
-            {/* 10 · Servicios que se retiran: cocineta, baño y ducha */}
+            {/* 7 · Servicios que se retiran: cocineta, baño y ducha (pendiente de cotizar) */}
             <g stroke={CLAY} strokeWidth="1.5" strokeDasharray="4 3" fill="none">
               <rect x="662" y="386" width="80" height="62" />
             </g>
@@ -321,7 +304,7 @@ export default function Plano({ conLeyenda = true }: { conLeyenda?: boolean }) {
             <rect x="488" y="432" width="84" height="16" fill="none" stroke={CLAY} strokeWidth="1.5" strokeDasharray="4 3" />
             <circle cx="512" cy="440" r="5" fill="none" stroke={CLAY} strokeWidth="1.2" />
 
-            {/* 9 · Baldosa resistente y estantería con rieles en el cuarto útil final */}
+            {/* 7 · Baldosa resistente y estantería con rieles en el cuarto útil final */}
             <rect
               x="486"
               y={MURO_ORIGINAL_Y + 8}

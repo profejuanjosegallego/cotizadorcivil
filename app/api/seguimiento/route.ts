@@ -1,22 +1,15 @@
 import { NextResponse } from "next/server";
-import { getCotizaciones, leerCotizaciones, type Estado } from "@/lib/mongodb";
-import { TODOS_LOS_ITEMS } from "@/lib/obra";
+import { getSeguimientos, leerSeguimiento, type Estado } from "@/lib/mongodb";
+import { TODAS_LAS_LINEAS } from "@/lib/cotizaciones";
 
 export const dynamic = "force-dynamic";
 
-const IDS_VALIDOS = new Set(TODOS_LOS_ITEMS.map((i) => i.id));
+const IDS_VALIDOS = new Set(TODAS_LAS_LINEAS.map((l) => l.id));
 const ESTADOS_VALIDOS: Estado[] = ["pendiente", "en_proceso", "terminado"];
 
 export async function GET() {
-  const cotizaciones = await leerCotizaciones();
-  return NextResponse.json({ cotizaciones });
-}
-
-function numeroONull(valor: unknown): number | null {
-  if (valor === null || valor === undefined || valor === "") return null;
-  const n = typeof valor === "number" ? valor : Number(valor);
-  if (!Number.isFinite(n) || n < 0) return null;
-  return n;
+  const seguimiento = await leerSeguimiento();
+  return NextResponse.json({ seguimiento });
 }
 
 export async function PATCH(request: Request) {
@@ -29,13 +22,11 @@ export async function PATCH(request: Request) {
 
   const id = typeof body.id === "string" ? body.id : "";
   if (!IDS_VALIDOS.has(id)) {
-    return NextResponse.json({ error: "Ítem desconocido" }, { status: 400 });
+    return NextResponse.json({ error: "Línea desconocida" }, { status: 400 });
   }
 
   const cambios: Record<string, unknown> = { actualizado: new Date().toISOString() };
 
-  if ("cantidad" in body) cambios.cantidad = numeroONull(body.cantidad);
-  if ("valorUnitario" in body) cambios.valorUnitario = numeroONull(body.valorUnitario);
   if ("notas" in body) cambios.notas = String(body.notas ?? "").slice(0, 2000);
   if ("estado" in body) {
     const estado = String(body.estado) as Estado;
@@ -46,16 +37,16 @@ export async function PATCH(request: Request) {
   }
 
   try {
-    const col = await getCotizaciones();
+    const col = await getSeguimientos();
     // El upsert crea el documento con _id = id; no se toca _id en $set porque es inmutable.
     const res = await col.findOneAndUpdate(
       { _id: id },
       { $set: cambios },
       { upsert: true, returnDocument: "after" }
     );
-    return NextResponse.json({ ok: true, cotizacion: res });
+    return NextResponse.json({ ok: true, seguimiento: res });
   } catch (err) {
-    console.error("Error guardando cotización:", err);
+    console.error("Error guardando seguimiento:", err);
     return NextResponse.json({ error: "No se pudo guardar" }, { status: 500 });
   }
 }

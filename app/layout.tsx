@@ -41,7 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 href="/resumen"
                 className="rounded-md border border-ink/15 px-3 py-1.5 transition-colors hover:border-ink/40 hover:bg-white"
               >
-                Cotización
+                Cuentas
               </Link>
             </nav>
           </div>
@@ -52,10 +52,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="no-print mt-24 border-t border-line">
           <div className="mx-auto flex max-w-content flex-col gap-2 px-5 py-10 text-[12px] text-muted sm:flex-row sm:items-center sm:justify-between sm:px-8">
             <p>
-              Edificio Belo Horizonte · Alcance de obra y cotización preparados para el equipo de
+              Edificio Belo Horizonte · Cotizaciones, pagos y avance de la obra del equipo de
               Óscar.
             </p>
-            <p>Todo lo que se escribe aquí se guarda automáticamente.</p>
+            <p>El avance y las observaciones se guardan automáticamente.</p>
           </div>
         </footer>
       </body>

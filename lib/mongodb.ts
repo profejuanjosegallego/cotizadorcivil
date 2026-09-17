@@ -2,17 +2,19 @@ import { MongoClient, type Collection, type Db } from "mongodb";
 
 export type Estado = "pendiente" | "en_proceso" | "terminado";
 
-export type Cotizacion = {
-  /** Coincide con Item.id de lib/obra.ts */
+/**
+ * Lo único que se guarda en Mongo: el avance y las observaciones de cada línea
+ * cotizada. Los valores vienen de lib/cotizaciones.ts y no se editan aquí.
+ */
+export type Seguimiento = {
+  /** Coincide con Linea.id de lib/cotizaciones.ts */
   _id: string;
-  cantidad: number | null;
-  valorUnitario: number | null;
   estado: Estado;
   notas: string;
   actualizado: string | null;
 };
 
-export type CotizacionMap = Record<string, Cotizacion>;
+export type SeguimientoMap = Record<string, Seguimiento>;
 
 const uri = process.env.MONGODB_URI;
 const dbName = process.env.MONGODB_DB || "inspiratech";
@@ -44,31 +46,27 @@ export async function getDb(): Promise<Db> {
   return client.db(dbName);
 }
 
-export async function getCotizaciones(): Promise<Collection<Cotizacion>> {
+export async function getSeguimientos(): Promise<Collection<Seguimiento>> {
   const db = await getDb();
-  return db.collection<Cotizacion>(collectionName);
+  return db.collection<Seguimiento>(collectionName);
 }
 
-export const COTIZACION_VACIA = (id: string): Cotizacion => ({
+export const SEGUIMIENTO_VACIO = (id: string): Seguimiento => ({
   _id: id,
-  cantidad: null,
-  valorUnitario: null,
   estado: "pendiente",
   notas: "",
   actualizado: null,
 });
 
-/** Lee todas las cotizaciones guardadas y las devuelve indexadas por id de item. */
-export async function leerCotizaciones(): Promise<CotizacionMap> {
+/** Lee todo el seguimiento guardado y lo devuelve indexado por id de línea. */
+export async function leerSeguimiento(): Promise<SeguimientoMap> {
   try {
-    const col = await getCotizaciones();
+    const col = await getSeguimientos();
     const docs = await col.find({}).toArray();
-    const map: CotizacionMap = {};
+    const map: SeguimientoMap = {};
     for (const d of docs) {
       map[d._id] = {
         _id: d._id,
-        cantidad: typeof d.cantidad === "number" ? d.cantidad : null,
-        valorUnitario: typeof d.valorUnitario === "number" ? d.valorUnitario : null,
         estado: (d.estado as Estado) || "pendiente",
         notas: d.notas || "",
         actualizado: d.actualizado ? String(d.actualizado) : null,
@@ -76,7 +74,7 @@ export async function leerCotizaciones(): Promise<CotizacionMap> {
     }
     return map;
   } catch (err) {
-    console.error("No se pudieron leer las cotizaciones:", err);
+    console.error("No se pudo leer el seguimiento:", err);
     return {};
   }
 }

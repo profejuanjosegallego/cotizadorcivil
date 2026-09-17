@@ -2,6 +2,7 @@ import Link from "next/link";
 import Imprimir from "@/components/Imprimir";
 import Icono from "@/components/Iconos";
 import CotizacionesEspacio from "@/components/CotizacionesEspacio";
+import Barras from "@/components/Barras";
 import { ESPACIOS } from "@/lib/obra";
 import {
   COTIZACIONES,
@@ -17,6 +18,7 @@ import {
   totalLinea,
 } from "@/lib/cotizaciones";
 import { leerSeguimiento } from "@/lib/mongodb";
+import { avanceEspacio, avanceObra, pagoEspacio } from "@/lib/avance";
 import {
   ESTADO_LABEL,
   formatCOP,
@@ -39,14 +41,10 @@ export default async function ResumenPage() {
   const seguimiento = await leerSeguimiento();
 
   const diferencia = TOTAL_PAGADO - TOTAL_ACORDADO;
-  const terminadas = TODAS_LAS_LINEAS.filter(
-    (l) => seguimiento[l.id]?.estado === "terminado",
-  ).length;
   // El avance se mide sobre toda la obra: lo cotizado más lo que falta por
   // cotizar. Si no, con todo lo cotizado terminado daría 100 % y no es cierto.
-  const porCotizar = ESPACIOS.reduce((a, e) => a + (e.pendientes?.length ?? 0), 0);
-  const totalTrabajos = TODAS_LAS_LINEAS.length + porCotizar;
-  const avance = Math.round((terminadas / totalTrabajos) * 100);
+  const { terminados: terminadas, trabajos: totalTrabajos, porCotizar, porcentaje: avance } =
+    avanceObra(seguimiento);
 
   const porEspacio = ESPACIOS.map((e) => {
     const lineas = lineasDeEspacio(e.slug);
@@ -200,6 +198,15 @@ export default async function ResumenPage() {
                   Pendiente de cotizar
                 </span>
               )}
+            </div>
+
+            <div className="border-b border-line px-4 py-3.5 sm:px-6">
+              <Barras
+                avance={avanceEspacio(espacio.slug, seguimiento)}
+                pago={pagoEspacio(espacio.slug)}
+                compacto
+                fila
+              />
             </div>
 
             <div className="px-4 pb-2 pt-4 sm:px-6">

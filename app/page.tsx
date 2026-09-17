@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Plano from "@/components/Plano";
 import Icono from "@/components/Iconos";
+import Barras from "@/components/Barras";
 import { ESPACIOS } from "@/lib/obra";
 import {
   PAGOS,
@@ -13,6 +14,7 @@ import {
   lineasDeEspacio,
 } from "@/lib/cotizaciones";
 import { leerSeguimiento } from "@/lib/mongodb";
+import { avanceEspacio, pagoEspacio } from "@/lib/avance";
 import { formatCOP, formatDiferencia } from "@/lib/format";
 import type { IconoNombre } from "@/lib/plano";
 
@@ -172,7 +174,6 @@ export default async function Home() {
           {ESPACIOS.map((e) => {
             const lineas = lineasDeEspacio(e.slug);
             const subtotal = cotizadoEnEspacio(e.slug);
-            const listos = lineas.filter((l) => seguimiento[l.id]?.estado === "terminado").length;
             const sinCotizar = e.pendientes?.length ?? 0;
 
             return (
@@ -196,15 +197,16 @@ export default async function Home() {
                 <p className="mt-1.5 flex-1 text-[13.5px] leading-relaxed text-muted">
                   {e.resumen}
                 </p>
-                <div className="mt-4 flex items-center justify-between border-t border-line pt-3 font-mono text-[11px] text-muted">
+                <div className="mt-4 border-t border-line pt-3">
+                  <Barras avance={avanceEspacio(e.slug, seguimiento)} pago={pagoEspacio(e.slug)} compacto />
+                </div>
+                <div className="mt-3 flex items-center justify-between font-mono text-[11px] text-muted">
                   <span>
-                    {lineas.length > 0
-                      ? `${lineas.length} línea${lineas.length === 1 ? "" : "s"}`
-                      : `${sinCotizar} pendiente${sinCotizar === 1 ? "" : "s"}`}
-                    {listos > 0 && (
-                      <span className="text-moss">
-                        {" "}
-                        · {listos} lista{listos === 1 ? "" : "s"}
+                    {lineas.length > 0 && `${lineas.length} línea${lineas.length === 1 ? "" : "s"}`}
+                    {lineas.length > 0 && sinCotizar > 0 && " · "}
+                    {sinCotizar > 0 && (
+                      <span className="text-clay">
+                        {sinCotizar} sin cotizar
                       </span>
                     )}
                   </span>

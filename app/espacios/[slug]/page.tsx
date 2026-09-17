@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import LineasEspacio from "@/components/LineasEspacio";
 import CotizacionesEspacio from "@/components/CotizacionesEspacio";
+import Barras from "@/components/Barras";
 import PlanoMini from "@/components/PlanoMini";
 import DiagramaEstudio from "@/components/DiagramaEstudio";
 import DiagramaEstanteria from "@/components/DiagramaEstanteria";
@@ -16,6 +16,7 @@ import {
   lineasDeEspacio,
 } from "@/lib/cotizaciones";
 import { leerSeguimiento } from "@/lib/mongodb";
+import { avanceEspacio, pagoEspacio } from "@/lib/avance";
 import { formatCOP } from "@/lib/format";
 
 // Sin generateStaticParams a propósito: la ficha lee el avance guardado en
@@ -45,6 +46,8 @@ export default async function EspacioPage({ params }: { params: { slug: string }
   const lineas = lineasDeEspacio(espacio.slug);
   const cotizaciones = cotizacionesDeEspacio(espacio.slug);
   const cotizado = cotizadoEnEspacio(espacio.slug);
+  const avance = avanceEspacio(espacio.slug, seguimiento);
+  const pago = pagoEspacio(espacio.slug);
   const pendientes = espacio.pendientes ?? [];
 
   return (
@@ -77,6 +80,10 @@ export default async function EspacioPage({ params }: { params: { slug: string }
             <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted sm:text-[16px]">
               {espacio.intencion}
             </p>
+          </div>
+
+          <div className="card mt-7 px-4 py-4 sm:px-5">
+            <Barras avance={avance} pago={pago} />
           </div>
 
           {cotizaciones.length > 0 && (
@@ -128,34 +135,6 @@ export default async function EspacioPage({ params }: { params: { slug: string }
             Estantería en L con rieles y entrepaños
           </h2>
           <DiagramaEstanteria />
-        </section>
-      )}
-
-      {/* ---------- Referencias ---------- */}
-      {espacio.referencias.length > 0 && (
-        <section className="mt-14">
-          <p className="eyebrow">Referencias</p>
-          <h2 className="mb-5 mt-2.5 text-[21px] font-semibold tracking-tight sm:text-[22px]">
-            Lo que queremos lograr
-          </h2>
-          <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
-            {espacio.referencias.map((r) => (
-              <figure key={r.src} className="card overflow-hidden">
-                <div className="relative aspect-[4/3] bg-paper">
-                  <Image
-                    src={r.src}
-                    alt={r.alt}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 560px"
-                    className="object-contain p-3"
-                  />
-                </div>
-                <figcaption className="border-t border-line px-4 py-3 text-[12.5px] leading-relaxed text-muted">
-                  {r.pie}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
         </section>
       )}
 

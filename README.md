@@ -38,7 +38,7 @@ app/
   page.tsx                 Portada: hero con cotizado / pagado, plano, tarjetas de espacios
   espacios/[slug]/page.tsx Ficha de cada espacio: intención, cotizaciones con sus pagos, fotos, líneas
   icon.svg                 Favicon
-  resumen/page.tsx         Cuentas de la obra: cotización contra pagos, detalle por espacio
+  resumen/page.tsx         Cuentas de la obra: totales y detalle por espacio con sus soportes
   api/seguimiento/route.ts GET todo el seguimiento · PATCH estado/observaciones de una línea
 lib/
   cotizaciones.ts          Cotizaciones de Óscar, pagos y cuentas (la fuente de verdad)
@@ -51,9 +51,8 @@ components/
   PlanoMini.tsx            Mini plano con el espacio resaltado
   DiagramaEstudio.tsx      Hoy / como debe quedar: el muro que se devuelve a su sitio
   DiagramaEstanteria.tsx   Ejemplo dibujado del sistema de rieles y entrepaños
-  CotizacionesEspacio.tsx  Cotizaciones del espacio con sus pagos en la misma fila (cabecera)
+  CotizacionesEspacio.tsx  Cotizaciones del espacio con sus pagos en la misma fila, descargables
   LineasEspacio.tsx        Líneas cotizadas con estado y observaciones (autoguardado)
-  Pagos.tsx                Tarjetas de pago y de cotización con descarga (cuentas)
   Iconos.tsx               Set de iconos de línea
   Imprimir.tsx             Botón de imprimir / guardar en PDF
 public/

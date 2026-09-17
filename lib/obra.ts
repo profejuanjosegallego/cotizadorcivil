@@ -12,7 +12,6 @@ export type Espacio = {
   icono: IconoNombre;
   resumen: string;
   intencion: string;
-  fotos: Referencia[];
   referencias: Referencia[];
   /**
    * Trabajos que Óscar todavía no ha cotizado. Se pasan a lib/cotizaciones.ts
@@ -37,13 +36,6 @@ export const ESPACIOS: Espacio[] = [
     resumen: "Pintura completa —reboque, resane y filetería— y botada de escombros.",
     intencion:
       "Que el apartamento quede parejo y limpio de arriba a abajo: sin fisuras ni parches visibles, cornisas y luces indirectas prolijas, y todo en Pintuco Blanco Luminoso. Aquí también va la botada de los escombros de toda la obra.",
-    fotos: [
-      {
-        src: "/img/corredor2.jpg",
-        alt: "Cornisa y luz indirecta del corredor",
-        pie: "Las cornisas con luz indirecta son el punto crítico: es donde más se nota un acabado descuidado.",
-      },
-    ],
     referencias: [],
     notas: ["La pintura es Pintuco Blanco Luminoso, no un equivalente."],
   },
@@ -54,13 +46,6 @@ export const ESPACIOS: Espacio[] = [
     resumen: "Demolición del muro con el cuarto útil y reparación del piso y el guarda escoba.",
     intencion:
       "La dueña anterior corrió el muro hacia el estudio para agrandar el cuarto útil y alquilarlo aparte. Queremos deshacer eso: demoler el muro donde está hoy y levantarlo en su posición original, para que el estudio vuelva a sus dimensiones. En la franja que se recupera hay que reparar el piso y continuar el guarda escoba.",
-    fotos: [
-      {
-        src: "/img/estudio.jpg",
-        alt: "Estudio actual con el muro corrido y la columna",
-        pie: "Estado actual del estudio. El muro del fondo es el que se corrió hacia adentro y hay que devolver a su sitio.",
-      },
-    ],
     referencias: [],
     notas: [
       "La cotización 1 cubre la demolición del muro y la reparación del piso. El muro nuevo en la posición original no aparece cotizado: confirmar con Óscar si entra en la cotización del cuarto útil.",
@@ -74,7 +59,6 @@ export const ESPACIOS: Espacio[] = [
     resumen: "Pendiente de cotizar: grieta, piso en microcemento y estantería en L.",
     intencion:
       "El cuarto útil tenía cocineta, baño y ducha porque la dueña anterior lo acondicionó para alquilar. Eso ya se retiró: entró en la demolición de la cotización 1. Lo que falta es dejarlo como lo que es, un depósito bien resuelto: resanar y acabar la grieta, retirar la baldosa y dejar el piso en microcemento, y una estantería en L con rieles y entrepaños.",
-    fotos: [],
     referencias: [],
     pendientes: [
       "Resane y acabado de la grieta",
@@ -94,13 +78,6 @@ export const ESPACIOS: Espacio[] = [
     resumen: "Mortero del horno en microcemento y puesta a punto del gabinete.",
     intencion:
       "Dejar el mesón del horno con mortero en microcemento, y el gabinete funcionando como nuevo: brazos y bisagras nuevos, tapa del citófono y luz indirecta.",
-    fotos: [
-      {
-        src: "/img/cocina.jpg",
-        alt: "Cocina actual con estufa a gas empotrada y lavaplatos",
-        pie: "La cocina actual. El mortero va en el mesón del horno; el gabinete es el que se repara.",
-      },
-    ],
     referencias: [],
   },
   {
@@ -110,13 +87,6 @@ export const ESPACIOS: Espacio[] = [
     resumen: "Aire acondicionado mini split de 12.000 BTU inverter, con acometida de 220 V.",
     intencion:
       "Un mini split de 12.000 BTU inverter en la habitación principal, bien instalado y con el drenaje resuelto, sin cables ni tubería a la vista. Necesitó una acometida eléctrica de 220 V que no estaba en la cotización original.",
-    fotos: [
-      {
-        src: "/img/principal.jpg",
-        alt: "Habitación principal con salida eléctrica junto a la ventana",
-        pie: "La salida eléctrica junto a la ventana no servía: se hizo una acometida nueva de 220 V.",
-      },
-    ],
     referencias: [],
   },
   {
@@ -126,7 +96,6 @@ export const ESPACIOS: Espacio[] = [
     resumen: "Lavamanos con mueble en los dos baños y arreglo de la cabina de la ducha.",
     intencion:
       "Son dos baños: el social, que da al corredor, y el de la habitación principal. En los dos se cambia el lavamanos por un combo con mueble. La cabina de la ducha se limpia y se vuelve a siliconar.",
-    fotos: [],
     referencias: [],
     notas: [
       "La cabina cotizada es una sola: confirmar con Óscar en cuál de los dos baños se hizo.",
@@ -140,13 +109,6 @@ export const ESPACIOS: Espacio[] = [
     resumen: "Pendiente de cotizar: luces indirectas para los cuadros y moldura de madera.",
     intencion:
       "Iluminar con apliques dirigidos el muro que queda entre la habitación principal y el estudio, donde van a ir los cuadros, como en la referencia. Además, una moldura de madera.",
-    fotos: [
-      {
-        src: "/img/corredor.jpg",
-        alt: "Corredor con cornisa de luz indirecta",
-        pie: "El corredor actual, con la cornisa de luz indirecta.",
-      },
-    ],
     referencias: [
       {
         src: "/img/ref-lampara-indirecta.jpg",
@@ -166,7 +128,6 @@ export const ESPACIOS: Espacio[] = [
     icono: "baranda",
     resumen: "Pintura de la reja del balcón.",
     intencion: "Dejar la reja del balcón repintada, pareja y sin óxido.",
-    fotos: [],
     referencias: [],
   },
 ];

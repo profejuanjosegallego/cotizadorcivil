@@ -131,34 +131,6 @@ export default async function EspacioPage({ params }: { params: { slug: string }
         </section>
       )}
 
-      {/* ---------- Estado actual ---------- */}
-      {espacio.fotos.length > 0 && (
-        <section className="mt-14">
-          <p className="eyebrow">Estado actual</p>
-          <h2 className="mb-5 mt-2.5 text-[21px] font-semibold tracking-tight sm:text-[22px]">
-            Cómo está hoy
-          </h2>
-          <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
-            {espacio.fotos.map((f) => (
-              <figure key={f.src}>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-line bg-line">
-                  <Image
-                    src={f.src}
-                    alt={f.alt}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 560px"
-                    className="object-cover"
-                  />
-                </div>
-                <figcaption className="mt-2.5 text-[12.5px] leading-relaxed text-muted">
-                  {f.pie}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
-      )}
-
       {/* ---------- Referencias ---------- */}
       {espacio.referencias.length > 0 && (
         <section className="mt-14">

@@ -8,7 +8,12 @@ import {
   totalCotizacion,
 } from "@/lib/cotizaciones";
 import { formatCOP, formatDiferencia, formatFechaMedia } from "@/lib/format";
-import { nombreArchivo } from "@/components/Pagos";
+
+/** Nombre con que se descarga el archivo: pago-5-2026-09-10.jpeg */
+function nombreArchivo(prefijo: string, numero: number, fecha: string, archivo: string) {
+  const ext = archivo.split(".").pop();
+  return `${prefijo}-${numero}-${fecha.slice(0, 10)}.${ext}`;
+}
 
 /**
  * Las cotizaciones de un espacio con sus pagos en la misma fila: qué se cotizó,

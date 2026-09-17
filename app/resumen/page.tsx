@@ -1,22 +1,19 @@
 import Link from "next/link";
 import Imprimir from "@/components/Imprimir";
 import Icono from "@/components/Iconos";
-import { ListaPagos, TarjetaCotizacion } from "@/components/Pagos";
+import CotizacionesEspacio from "@/components/CotizacionesEspacio";
 import { ESPACIOS } from "@/lib/obra";
 import {
-  CUENTAS,
+  COTIZACIONES,
   PAGOS,
   TODAS_LAS_LINEAS,
   TOTAL_ACORDADO,
   TOTAL_COTIZADO,
   TOTAL_PAGADO,
   TOTAL_REDONDEOS,
-  acordadoCuenta,
+  cotizacionesDeEspacio,
   getCotizacion,
-  getPago,
   lineasDeEspacio,
-  pagadoCuenta,
-  totalCuenta,
   totalLinea,
 } from "@/lib/cotizaciones";
 import { leerSeguimiento } from "@/lib/mongodb";
@@ -52,6 +49,7 @@ export default async function ResumenPage() {
     return {
       espacio: e,
       lineas,
+      cotizaciones: cotizacionesDeEspacio(e.slug),
       subtotal: lineas.reduce((a, l) => a + totalLinea(l), 0),
     };
   });
@@ -78,8 +76,8 @@ export default async function ResumenPage() {
           Cuentas de la obra
         </h1>
         <p className="mt-3 text-[13.5px] leading-relaxed text-muted sm:text-[14px]">
-          Edificio Belo Horizonte · {CUENTAS.reduce((a, c) => a + c.cotizaciones.length, 0)}{" "}
-          cotizaciones de Óscar · {PAGOS.length} pagos
+          Edificio Belo Horizonte · {COTIZACIONES.length} cotizaciones de Óscar · {PAGOS.length}{" "}
+          pagos
           {ultima && (
             <>
               {" · "}
@@ -139,79 +137,6 @@ export default async function ResumenPage() {
         </div>
       </section>
 
-      {/* ---------- Cuentas: cotización contra pagos ---------- */}
-      <section className="mt-12 sm:mt-14">
-        <p className="eyebrow">Cuenta por cuenta</p>
-        <h2 className="mb-2.5 mt-2.5 text-[21px] font-semibold tracking-tight sm:text-[22px]">
-          Qué cotización se pagó con qué transferencia
-        </h2>
-        <p className="mb-6 max-w-2xl text-[13px] leading-relaxed text-muted">
-          Cada bloque cruza una o más cotizaciones con los pagos que las cubrieron. Los
-          comprobantes y las cotizaciones se pueden abrir o descargar.
-        </p>
-
-        <div className="space-y-8">
-          {CUENTAS.map((cuenta, i) => {
-            const cotizado = totalCuenta(cuenta);
-            const pagado = pagadoCuenta(cuenta);
-            const dif = pagado - acordadoCuenta(cuenta);
-            const cotizaciones = cuenta.cotizaciones.map((n) => getCotizacion(n)!);
-            const pagos = cuenta.pagos.map((n) => getPago(n)!);
-            return (
-              <article key={i} className="rounded-xl border border-ink/15 bg-paper p-4 print-break sm:p-6">
-                <div className="grid gap-5 lg:grid-cols-2 lg:gap-8">
-                  <div>
-                    <p className="eyebrow mb-3">
-                      Cotizaci{cotizaciones.length === 1 ? "ón" : "ones"}{" "}
-                      {cuenta.cotizaciones.join(" y ")}
-                    </p>
-                    <ul className="grid gap-3">
-                      {cotizaciones.map((c) => (
-                        <TarjetaCotizacion key={c.numero} cotizacion={c} />
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="eyebrow mb-3">
-                      Pago{pagos.length === 1 ? "" : "s"} {cuenta.pagos.join(" y ")}
-                    </p>
-                    <ListaPagos pagos={pagos} columnas={1} />
-                  </div>
-                </div>
-
-                <dl className="mt-5 grid grid-cols-3 gap-3 border-t border-line pt-4 font-mono text-[13px] sm:flex sm:gap-10">
-                  <div>
-                    <dt className="eyebrow">Cotizado</dt>
-                    <dd className="mt-1 font-semibold">{formatCOP(cotizado)}</dd>
-                  </div>
-                  {cuenta.redondeo && (
-                    <div>
-                      <dt className="eyebrow">Redondeo</dt>
-                      <dd className="mt-1 font-semibold text-muted">
-                        {formatDiferencia(cuenta.redondeo)}
-                      </dd>
-                    </div>
-                  )}
-                  <div>
-                    <dt className="eyebrow">Pagado</dt>
-                    <dd className="mt-1 font-semibold">{formatCOP(pagado)}</dd>
-                  </div>
-                  <div>
-                    <dt className="eyebrow">Diferencia</dt>
-                    <dd className={`mt-1 font-semibold ${dif === 0 ? "text-moss" : "text-clay"}`}>
-                      {dif === 0 ? "Cuadra ✓" : formatDiferencia(dif)}
-                    </dd>
-                  </div>
-                </dl>
-                {cuenta.nota && (
-                  <p className="mt-3 text-[12.5px] leading-relaxed text-muted">{cuenta.nota}</p>
-                )}
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
       {/* ---------- Detalle por espacio ---------- */}
       <section className="mt-14 space-y-10 sm:mt-16 sm:space-y-12">
         <div>
@@ -219,9 +144,13 @@ export default async function ResumenPage() {
           <h2 className="mt-2.5 text-[21px] font-semibold tracking-tight sm:text-[22px]">
             Las líneas cotizadas, dónde van y cómo van
           </h2>
+          <p className="mt-2.5 max-w-2xl text-[13px] leading-relaxed text-muted">
+            En cada espacio están las cotizaciones que envió Óscar y los comprobantes de las
+            transferencias con que se pagaron: se pueden abrir o descargar.
+          </p>
         </div>
 
-        {porEspacio.map(({ espacio, lineas, subtotal }) => (
+        {porEspacio.map(({ espacio, lineas, cotizaciones, subtotal }) => (
           <div key={espacio.slug} className="print-break">
             <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-ink/20 pb-3">
               <h3 className="flex items-center gap-2.5 text-[18px] font-semibold tracking-tight sm:text-[19px]">
@@ -244,6 +173,12 @@ export default async function ResumenPage() {
                 )}
               </span>
             </div>
+
+            {cotizaciones.length > 0 && (
+              <div className="no-print mt-4">
+                <CotizacionesEspacio cotizaciones={cotizaciones} slug={espacio.slug} />
+              </div>
+            )}
 
             {lineas.length === 0 && espacio.pendientes && (
               <ul className="mt-3 space-y-1.5 text-[13px] text-muted">

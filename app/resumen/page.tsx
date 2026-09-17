@@ -7,8 +7,11 @@ import {
   CUENTAS,
   PAGOS,
   TODAS_LAS_LINEAS,
+  TOTAL_ACORDADO,
   TOTAL_COTIZADO,
   TOTAL_PAGADO,
+  TOTAL_REDONDEOS,
+  acordadoCuenta,
   getCotizacion,
   getPago,
   lineasDeEspacio,
@@ -38,7 +41,7 @@ const COLOR_ESTADO: Record<string, string> = {
 export default async function ResumenPage() {
   const seguimiento = await leerSeguimiento();
 
-  const diferencia = TOTAL_PAGADO - TOTAL_COTIZADO;
+  const diferencia = TOTAL_PAGADO - TOTAL_ACORDADO;
   const terminadas = TODAS_LAS_LINEAS.filter(
     (l) => seguimiento[l.id]?.estado === "terminado"
   ).length;
@@ -109,14 +112,21 @@ export default async function ResumenPage() {
           </p>
         </div>
         <div className="card p-4 sm:p-5">
-          <p className="eyebrow">{diferencia >= 0 ? "Pagado de más" : "Por pagar"}</p>
+          <p className="eyebrow">
+            {diferencia > 0 ? "Pagado de más" : diferencia < 0 ? "Por pagar" : "Saldo"}
+          </p>
           <p
             className={`mt-2 font-mono text-[20px] font-semibold tracking-tight sm:text-[24px] ${
-              diferencia === 0 ? "text-muted" : "text-clay"
+              diferencia === 0 ? "text-moss" : "text-clay"
             }`}
           >
-            {formatDiferencia(diferencia)}
+            {diferencia === 0 ? "Cuadra ✓" : formatDiferencia(diferencia)}
           </p>
+          {TOTAL_REDONDEOS > 0 && (
+            <p className="mt-1.5 text-[11.5px] leading-snug text-muted">
+              Incluye {formatCOP(TOTAL_REDONDEOS)} de redondeos acordados.
+            </p>
+          )}
         </div>
         <div className="card p-4 sm:p-5">
           <p className="eyebrow">Avance de obra</p>
@@ -144,7 +154,7 @@ export default async function ResumenPage() {
           {CUENTAS.map((cuenta, i) => {
             const cotizado = totalCuenta(cuenta);
             const pagado = pagadoCuenta(cuenta);
-            const dif = pagado - cotizado;
+            const dif = pagado - acordadoCuenta(cuenta);
             const cotizaciones = cuenta.cotizaciones.map((n) => getCotizacion(n)!);
             const pagos = cuenta.pagos.map((n) => getPago(n)!);
             return (
@@ -174,6 +184,14 @@ export default async function ResumenPage() {
                     <dt className="eyebrow">Cotizado</dt>
                     <dd className="mt-1 font-semibold">{formatCOP(cotizado)}</dd>
                   </div>
+                  {cuenta.redondeo && (
+                    <div>
+                      <dt className="eyebrow">Redondeo</dt>
+                      <dd className="mt-1 font-semibold text-muted">
+                        {formatDiferencia(cuenta.redondeo)}
+                      </dd>
+                    </div>
+                  )}
                   <div>
                     <dt className="eyebrow">Pagado</dt>
                     <dd className="mt-1 font-semibold">{formatCOP(pagado)}</dd>
@@ -360,12 +378,24 @@ export default async function ResumenPage() {
             </p>
           </div>
           <div>
-            <p className="eyebrow">{diferencia >= 0 ? "Pagado de más" : "Por pagar"}</p>
-            <p className="mt-1.5 font-mono text-[26px] font-semibold tracking-tight text-clay sm:text-[30px]">
-              {formatDiferencia(diferencia)}
+            <p className="eyebrow">
+              {diferencia > 0 ? "Pagado de más" : diferencia < 0 ? "Por pagar" : "Saldo"}
+            </p>
+            <p
+              className={`mt-1.5 font-mono text-[26px] font-semibold tracking-tight sm:text-[30px] ${
+                diferencia === 0 ? "text-moss" : "text-clay"
+              }`}
+            >
+              {diferencia === 0 ? "Cuadra ✓" : formatDiferencia(diferencia)}
             </p>
           </div>
         </div>
+        {TOTAL_REDONDEOS > 0 && (
+          <p className="mt-4 text-[13px] leading-relaxed text-muted">
+            Lo pagado incluye {formatCOP(TOTAL_REDONDEOS)} de redondeos acordados al pagar; por
+            eso cuadra aunque sea mayor que lo cotizado.
+          </p>
+        )}
         {pendientes.length > 0 && (
           <p className="mt-5 border-t border-line pt-4 text-[13px] leading-relaxed text-muted">
             Falta por cotizar:{" "}
@@ -377,8 +407,8 @@ export default async function ResumenPage() {
 
       <p className="mt-6 text-[12.5px] leading-relaxed text-muted">
         Los valores son los de las cotizaciones de Óscar, transcritos tal cual; los pagos, los de
-        los comprobantes de transferencia. Las diferencias de unos pocos pesos son redondeos al
-        pagar. La acometida de 220 V del aire se acordó al instalar y no aparece en la cotización
+        los comprobantes de transferencia. Los redondeos al pagar están anotados en cada cuenta.
+        La acometida de 220 V del aire se acordó al instalar y no aparece en la cotización
         escrita: está sumada como una línea más.
       </p>
     </main>

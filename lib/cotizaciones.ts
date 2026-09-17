@@ -48,6 +48,8 @@ export type Pago = {
 export type Cuenta = {
   cotizaciones: number[];
   pagos: number[];
+  /** Lo que se pagó de más a propósito (redondeos acordados). Se suma a lo cotizado. */
+  redondeo?: number;
   nota?: string;
 };
 
@@ -61,36 +63,37 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c1-demolicion",
         espacio: "estudio",
-        descripcion: "Demolición del muro entre el estudio y el cuarto útil",
+        descripcion: "Demolición sin botada de escombros",
         manoObra: 500_000,
         materiales: 0,
-        nota: "Sin botada de escombros: eso va en la cotización 4.",
+        nota: "Es el muro entre el estudio y el cuarto útil. La botada de escombros va en la cotización 4.",
       },
       {
         id: "c1-pintura",
         espacio: "general",
-        descripcion: "Pintura: reboque, resane y filetería",
+        descripcion: "Pintura (reboque, resane, filetería)",
         manoObra: 4_800_000,
         materiales: 1_200_000,
       },
       {
         id: "c1-mortero",
         espacio: "cocina",
-        descripcion: "Mortero para el horno, en microcemento",
+        descripcion: "Mortero horno microcemento",
         manoObra: 280_000,
         materiales: 150_000,
       },
       {
         id: "c1-piso-estudio",
         espacio: "estudio",
-        descripcion: "Reparación de piso y guarda escoba",
+        descripcion: "Reparación piso y guardo escoba habitación",
         manoObra: 480_000,
         materiales: 320_000,
+        nota: "La habitación de la cotización es el estudio.",
       },
       {
         id: "c1-reja-balcon",
         espacio: "balcon",
-        descripcion: "Pintura de la reja del balcón",
+        descripcion: "Pintura reja balcón",
         manoObra: 200_000,
         materiales: 80_000,
       },
@@ -105,14 +108,14 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c2-minisplit",
         espacio: "habitacion-principal",
-        descripcion: "Suministro e instalación de mini split 12.000 BTU, tecnología inverter",
+        descripcion: "Suministro e instalación equipo MiniSplit de 12.000 BTU tecnología inverter",
         manoObra: 600_000,
         materiales: 1_450_000,
       },
       {
         id: "c2-tuberia",
         espacio: "habitacion-principal",
-        descripcion: "Tubería de cobre con aislamiento",
+        descripcion: "Suministro e instalación de tubería de cobre con aislamiento",
         manoObra: 180_000,
         materiales: 90_000,
       },
@@ -140,13 +143,13 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c2-acometida",
         espacio: "habitacion-principal",
-        descripcion: "Acometida eléctrica de 220 V para el aire",
+        descripcion: "Acometida eléctrica de 220 V",
         manoObra: 420_000,
         materiales: 0,
         nota: "No está en la cotización escrita: se acordó al instalar y subió el total de 2.837.000 a 3.257.000.",
       },
     ],
-    nota: "La cotización escrita suma 2.837.000; con la acometida de 220 V quedó en 3.257.000.",
+    nota: "La cotización escrita suma 2.837.000; con la acometida de 220 V quedó en 3.257.000, que fue lo pagado.",
   },
   {
     numero: 3,
@@ -157,7 +160,7 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c3-combo",
         espacio: "banos",
-        descripcion: "Combo lavamanos con mueble",
+        descripcion: "Combo lavamanos / mueble",
         cantidad: 2,
         valorUnitario: 469_000,
         manoObra: 0,
@@ -166,7 +169,7 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c3-materiales",
         espacio: "banos",
-        descripcion: "Materiales de instalación: silicona, adaptadores y otros",
+        descripcion: "Materiales de instalación (silicona, adaptadores, otros)",
         cantidad: 1,
         valorUnitario: 96_750,
         manoObra: 0,
@@ -175,7 +178,7 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c3-accesorios",
         espacio: "banos",
-        descripcion: "Accesorios: desagüe, llaves, etc.",
+        descripcion: "Accesorios (desagüe, llaves, etc.)",
         cantidad: 2,
         valorUnitario: 120_000,
         manoObra: 0,
@@ -210,7 +213,7 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c4-transporte",
         espacio: "general",
-        descripcion: "Transporte de escombros",
+        descripcion: "Transporte",
         cantidad: 1,
         valorUnitario: 200_000,
         manoObra: 200_000,
@@ -219,7 +222,7 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c4-traslado",
         espacio: "general",
-        descripcion: "Traslado del cuarto piso a la calle",
+        descripcion: "Traslado del 4 piso a la calle",
         cantidad: 1,
         valorUnitario: 80_000,
         manoObra: 80_000,
@@ -245,7 +248,7 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c5-limpieza",
         espacio: "banos",
-        descripcion: "Limpieza y siliconado de la cabina",
+        descripcion: "Limpieza y siliconado",
         cantidad: 1,
         valorUnitario: 120_000,
         manoObra: 120_000,
@@ -254,7 +257,7 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c5-materiales",
         espacio: "banos",
-        descripcion: "Silicona, cemento, boquilla y cinta",
+        descripcion: "Silicona, cemento, boquilla, cinta",
         cantidad: 1,
         valorUnitario: 80_000,
         manoObra: 0,
@@ -271,7 +274,7 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c6-herrajes",
         espacio: "cocina",
-        descripcion: "Brazos, bisagras y silicona",
+        descripcion: "Brazos, bisagras, silicona",
         cantidad: 9,
         valorUnitario: 28_000,
         manoObra: 0,
@@ -289,7 +292,7 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c6-citofono",
         espacio: "cocina",
-        descripcion: "Tapa del citófono",
+        descripcion: "Tapa citófono",
         cantidad: 1,
         valorUnitario: 10_000,
         manoObra: 0,
@@ -307,7 +310,7 @@ export const COTIZACIONES: Cotizacion[] = [
       {
         id: "c6-mano-obra",
         espacio: "cocina",
-        descripcion: "Mano de obra del gabinete",
+        descripcion: "Mano de obra",
         manoObra: 200_000,
         materiales: 0,
       },
@@ -388,12 +391,18 @@ export const PAGOS: Pago[] = [
 export const CUENTAS: Cuenta[] = [
   { cotizaciones: [1], pagos: [2, 5], nota: "Materiales en un pago y mano de obra en otro." },
   { cotizaciones: [2], pagos: [3, 4] },
-  { cotizaciones: [3], pagos: [6] },
+  {
+    cotizaciones: [3],
+    pagos: [6],
+    redondeo: 250,
+    nota: "Los 1.804.750 se redondearon a 1.805.000 al pagar.",
+  },
   { cotizaciones: [4], pagos: [7] },
   {
     cotizaciones: [5, 6],
     pagos: [1, 8],
-    nota: "El anticipo del 5 de septiembre (pago 1) se descontó de estas dos cotizaciones.",
+    redondeo: 8_000,
+    nota: "El anticipo del 5 de septiembre (pago 1, 450.000) quedó como saldo a favor y se descontó de estas dos cotizaciones. La de cocina (492.000) se redondeó a 500.000: 200.000 + 500.000 = 700.000, que es lo pagado.",
   },
 ];
 
@@ -433,6 +442,11 @@ export function pagadoCuenta(cuenta: Cuenta): number {
   return cuenta.pagos.reduce((a, n) => a + (getPago(n)?.valor ?? 0), 0);
 }
 
+/** Lo que se acordó pagar por la cuenta: lo cotizado más el redondeo, si lo hubo. */
+export function acordadoCuenta(cuenta: Cuenta): number {
+  return totalCuenta(cuenta) + (cuenta.redondeo ?? 0);
+}
+
 export function lineasDeEspacio(slug: string): LineaConCotizacion[] {
   return TODAS_LAS_LINEAS.filter((l) => l.espacio === slug);
 }
@@ -457,3 +471,6 @@ export function pagosDeEspacio(slug: string): Pago[] {
 
 export const TOTAL_COTIZADO = COTIZACIONES.reduce((a, c) => a + totalCotizacion(c), 0);
 export const TOTAL_PAGADO = PAGOS.reduce((a, p) => a + p.valor, 0);
+export const TOTAL_REDONDEOS = CUENTAS.reduce((a, c) => a + (c.redondeo ?? 0), 0);
+/** Cotizado más redondeos acordados: contra esto se compara lo pagado. */
+export const TOTAL_ACORDADO = TOTAL_COTIZADO + TOTAL_REDONDEOS;

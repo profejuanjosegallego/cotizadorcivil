@@ -6,6 +6,7 @@ import { ESPACIOS } from "@/lib/obra";
 import {
   PAGOS,
   TODAS_LAS_LINEAS,
+  TOTAL_ACORDADO,
   TOTAL_COTIZADO,
   TOTAL_PAGADO,
   cotizadoEnEspacio,
@@ -27,7 +28,7 @@ const LEYENDA: { icono: IconoNombre; texto: string }[] = [
 
 export default async function Home() {
   const seguimiento = await leerSeguimiento();
-  const diferencia = TOTAL_PAGADO - TOTAL_COTIZADO;
+  const diferencia = TOTAL_PAGADO - TOTAL_ACORDADO;
   const pendientes = ESPACIOS.filter((e) => (e.pendientes?.length ?? 0) > 0).length;
 
   return (
@@ -76,9 +77,15 @@ export default async function Home() {
                 </dd>
               </div>
               <div>
-                <dt className="eyebrow">{diferencia >= 0 ? "Pagado de más" : "Por pagar"}</dt>
-                <dd className="mt-1 font-mono text-[17px] font-semibold tracking-tight text-clay sm:text-2xl">
-                  {formatDiferencia(diferencia)}
+                <dt className="eyebrow">
+                  {diferencia > 0 ? "Pagado de más" : diferencia < 0 ? "Por pagar" : "Saldo"}
+                </dt>
+                <dd
+                  className={`mt-1 font-mono text-[17px] font-semibold tracking-tight sm:text-2xl ${
+                    diferencia === 0 ? "text-moss" : "text-clay"
+                  }`}
+                >
+                  {diferencia === 0 ? "Cuadra ✓" : formatDiferencia(diferencia)}
                 </dd>
               </div>
             </dl>

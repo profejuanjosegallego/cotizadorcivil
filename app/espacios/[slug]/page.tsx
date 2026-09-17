@@ -119,7 +119,7 @@ export default async function EspacioPage({ params }: { params: { slug: string }
         <section className="mt-14">
           <p className="eyebrow">La estantería que queremos</p>
           <h2 className="mb-5 mt-2.5 text-[21px] font-semibold tracking-tight sm:text-[22px]">
-            Sistema de rieles y entrepaños regulables
+            Estantería en L con rieles y entrepaños
           </h2>
           <DiagramaEstanteria />
         </section>

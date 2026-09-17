@@ -129,7 +129,7 @@ export const MARCAS: Marca[] = [
     x: 703,
     y: 415,
     icono: "carga",
-    titulo: "Cuarto útil: retiro de servicios, piso y estantería · pendiente de cotizar",
+    titulo: "Cuarto útil: grieta, piso en microcemento y estantería en L · pendiente de cotizar",
   },
 ];
 

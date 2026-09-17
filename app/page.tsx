@@ -23,7 +23,7 @@ const LEYENDA: { icono: IconoNombre; texto: string }[] = [
   { icono: "grifo", texto: "Lavamanos y cabina de baño" },
   { icono: "aire", texto: "Aire acondicionado" },
   { icono: "luzIndirecta", texto: "Luces para los cuadros · pendiente de cotizar" },
-  { icono: "bano", texto: "Cocineta, baño y ducha que se retiran · pendiente de cotizar" },
+  { icono: "bano", texto: "Cocineta, baño y ducha ya retiradas (demolición de la cotización 1)" },
 ];
 
 export default async function Home() {

@@ -3,7 +3,7 @@ import { CLAY, INK, PAPER } from "@/lib/plano";
 /**
  * Ejemplo de la estantería con rieles que se quiere en el cuarto útil.
  * Es un esquema dibujado, no una foto de producto: sirve para que el equipo de
- * Óscar entienda el sistema (rieles verticales + ménsulas regulables +
+ * Óscar entienda el sistema (rieles verticales + ménsulas +
  * entrepaños) y proponga su diseño con medidas reales.
  */
 
@@ -21,7 +21,7 @@ export default function DiagramaEstanteria() {
             viewBox="0 0 470 352"
             className="mx-auto h-auto w-full max-w-[470px]"
             role="img"
-            aria-label="Alzado de una estantería de rieles verticales con ménsulas regulables y entrepaños"
+            aria-label="Alzado de una estantería de rieles verticales con ménsulas y entrepaños"
           >
             {/* Muro */}
             <rect x="30" y="20" width="340" height="285" fill={INK} opacity="0.03" />
@@ -72,7 +72,7 @@ export default function DiagramaEstanteria() {
               fill={CLAY}
               transform="rotate(90 410 95)"
             >
-              altura regulable
+              altura del entrepaño
             </text>
 
             <g stroke={INK} strokeWidth="1" opacity="0.45" fill="none">

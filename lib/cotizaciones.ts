@@ -66,7 +66,7 @@ export const COTIZACIONES: Cotizacion[] = [
         descripcion: "Demolición sin botada de escombros",
         manoObra: 500_000,
         materiales: 0,
-        nota: "Es el muro entre el estudio y el cuarto útil. La botada de escombros va en la cotización 4.",
+        nota: "Es el muro entre el estudio y el cuarto útil, y el retiro de la cocineta, el baño y la ducha del cuarto útil. La botada de escombros va en la cotización 4.",
       },
       {
         id: "c1-pintura",

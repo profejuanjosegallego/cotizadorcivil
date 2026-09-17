@@ -10,6 +10,8 @@ type Props = {
   lineas: LineaConCotizacion[];
   /** Fecha de cada cotización, indexada por número, para la etiqueta de la línea. */
   fechas: Record<number, string>;
+  /** Números de pago que cubrieron cada cotización, indexados por número. */
+  pagos: Record<number, number[]>;
   inicial: Record<string, Seguimiento>;
 };
 
@@ -31,7 +33,7 @@ const vacio = (id: string): Seguimiento => ({
  * cotización y no se editan; lo que sí se guarda es el avance y las
  * observaciones, ~0,7 s después de dejar de escribir.
  */
-export default function LineasEspacio({ lineas, fechas, inicial }: Props) {
+export default function LineasEspacio({ lineas, fechas, pagos, inicial }: Props) {
   const [datos, setDatos] = useState<Record<string, Seguimiento>>(() => {
     const base: Record<string, Seguimiento> = {};
     for (const l of lineas) base[l.id] = inicial[l.id] ?? vacio(l.id);
@@ -97,6 +99,13 @@ export default function LineasEspacio({ lineas, fechas, inicial }: Props) {
                     </h3>
                     <p className="mt-1.5 font-mono text-[11px] uppercase tracking-wider text-muted">
                       Cotización {linea.cotizacion} · {formatFechaCorta(fechas[linea.cotizacion])}
+                      {pagos[linea.cotizacion]?.length > 0 && (
+                        <>
+                          {" · "}
+                          Pago{pagos[linea.cotizacion].length === 1 ? "" : "s"}{" "}
+                          {pagos[linea.cotizacion].join(" y ")}
+                        </>
+                      )}
                       {linea.cantidad !== undefined && linea.valorUnitario !== undefined && (
                         <>
                           {" · "}

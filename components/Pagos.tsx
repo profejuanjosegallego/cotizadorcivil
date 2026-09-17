@@ -3,7 +3,7 @@ import type { Cotizacion, Pago } from "@/lib/cotizaciones";
 import { totalCotizacion } from "@/lib/cotizaciones";
 import { formatCOP, formatFechaMedia, formatHora } from "@/lib/format";
 
-function nombreArchivo(prefijo: string, numero: number, fecha: string, archivo: string) {
+export function nombreArchivo(prefijo: string, numero: number, fecha: string, archivo: string) {
   const ext = archivo.split(".").pop();
   return `${prefijo}-${numero}-${fecha.slice(0, 10)}.${ext}`;
 }

@@ -84,7 +84,7 @@ estado y observaciones, indexado por el `id` de cada línea.
 - **Los pagos cubren cotizaciones completas.** Cuando una cotización reparte líneas entre
   varios espacios (la 1 y la 4), la ficha lo avisa para que el pago no se lea como propio.
 - **Lo que no está cotizado no aparece como trabajo.** Queda como "pendiente de cotizar"
-  en el espacio (estantería del cuarto útil, espejos de los baños y los trabajos del corredor).
+  en el espacio (estantería del cuarto útil y espejos de los baños).
 - **Mobile first.** Se usa desde el celular en obra: campos de 16 px (para que iOS no
   haga zoom), plano con desplazamiento horizontal, tabla del resumen convertida en
   tarjetas y diagramas apilados.

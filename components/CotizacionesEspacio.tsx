@@ -35,6 +35,7 @@ export default function CotizacionesEspacio({
         const dif = cuenta ? pagadoCuenta(cuenta) - acordadoCuenta(cuenta) : 0;
         const compartida = c.lineas.some((l) => l.espacio !== slug);
         const conjunta = cuenta && cuenta.cotizaciones.length > 1;
+        const otras = cuenta?.cotizaciones.filter((n) => n !== c.numero) ?? [];
 
         return (
           <li key={c.numero} className="flex gap-3.5 px-4 py-3.5 sm:px-5">
@@ -106,8 +107,8 @@ export default function CotizacionesEspacio({
 
               {conjunta && (
                 <p className="mt-1.5 text-[12px] leading-relaxed text-muted">
-                  Se pagó junto con la cotización{" "}
-                  {cuenta.cotizaciones.filter((n) => n !== c.numero).join(" y ")}
+                  Se pagó junto con {otras.length > 1 ? "las cotizaciones" : "la cotización"}{" "}
+                  {otras.length > 1 ? `${otras.slice(0, -1).join(", ")} y ${otras.at(-1)}` : otras[0]}
                   {cuenta.nota && `: ${cuenta.nota}`}
                 </p>
               )}

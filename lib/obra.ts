@@ -26,7 +26,8 @@ export const ESPACIOS: Espacio[] = [
     slug: "general",
     nombre: "Todo el apartamento",
     icono: "pintura",
-    resumen: "Pintura completa —reboque, resane y filetería— y botada de escombros.",
+    resumen:
+      "Pintura completa, botada de escombros, paneles LED, timbre, toma de TV y arreglos varios.",
     intencion:
       "Que el apartamento quede parejo y limpio de arriba a abajo: sin fisuras ni parches visibles, cornisas y luces indirectas prolijas, y todo en Pintuco Blanco Luminoso. Aquí también va la botada de los escombros de toda la obra.",
     notas: ["La pintura es Pintuco Blanco Luminoso, no un equivalente."],
@@ -39,7 +40,7 @@ export const ESPACIOS: Espacio[] = [
     intencion:
       "La dueña anterior corrió el muro hacia el estudio para agrandar el cuarto útil y alquilarlo aparte. Queremos deshacer eso: demoler el muro donde está hoy y levantarlo en su posición original, para que el estudio vuelva a sus dimensiones. En la franja que se recupera hay que reparar el piso y continuar el guarda escoba.",
     notas: [
-      "La cotización 1 cubre la demolición del muro y la reparación del piso. El muro nuevo en la posición original no aparece cotizado, tampoco en la del cuarto útil (7): confirmar con Óscar.",
+      "La cotización 1 cubre la demolición del muro y la reparación del piso. El muro nuevo en la posición original no aparece cotizado, tampoco en la del cuarto útil (11): confirmar con Óscar.",
       "Dónde quedaba el muro original se confirma en sitio: casi siempre se ve la huella en el piso, en el cielo o en el corte de la cornisa.",
     ],
   },
@@ -54,8 +55,8 @@ export const ESPACIOS: Espacio[] = [
     pendientes: ["Estantería en L con rieles y entrepaños"],
     notas: [
       "El retiro de la cocineta, el baño y la ducha ya se hizo: está dentro de la línea \"Demolición\" de la cotización 1, que aparece en la ficha del estudio.",
-      "La cotización 7 levanta el piso de madera pero no dice qué acabado queda. El piso en microcemento que se había hablado no aparece cotizado: confirmar con Óscar si queda así o si se cotiza aparte.",
-      "Las cotizaciones 7 (mano de obra) y 9 (materiales) llegaron por WhatsApp; la imagen descargable es la transcripción literal del mensaje.",
+      "La cotización 11 levanta el piso de madera pero no dice qué acabado queda. El piso en microcemento que se había hablado no aparece cotizado: confirmar con Óscar si queda así o si se cotiza aparte.",
+      "Las cotizaciones 11 (mano de obra) y 13 (materiales) llegaron por WhatsApp; la imagen descargable es la transcripción literal del mensaje.",
       "El acceso es por el corredor común del edificio: hay que coordinar con la administración los horarios y el paso de escombros y materiales.",
     ],
   },
@@ -63,9 +64,10 @@ export const ESPACIOS: Espacio[] = [
     slug: "cocina",
     nombre: "Cocina",
     icono: "estufa",
-    resumen: "Mortero del horno en microcemento y puesta a punto del gabinete.",
+    resumen:
+      "Mortero del horno y debajo del lavaplatos en microcemento, sellado bajo el lavadero y puesta a punto del gabinete.",
     intencion:
-      "Dejar el mesón del horno con mortero en microcemento, y el gabinete funcionando como nuevo: brazos y bisagras nuevos, tapa del citófono y luz indirecta.",
+      "Dejar el mesón del horno y el piso debajo del lavaplatos con mortero en microcemento, el muro debajo del lavadero sellado, y el gabinete funcionando como nuevo: brazos y bisagras nuevos, tapa del citófono y luz indirecta.",
   },
   {
     slug: "habitacion-principal",
@@ -92,18 +94,12 @@ export const ESPACIOS: Espacio[] = [
     slug: "corredor",
     nombre: "Corredor",
     icono: "luzIndirecta",
-    resumen:
-      "Pendiente de confirmar por Óscar: luces indirectas, moldura de madera junto al balcón, entrepaños y cajas para tomas.",
+    resumen: "Apliques para los cuadros, panel WPC junto al balcón, repisas, cintas LED y toma.",
     intencion:
-      "Iluminar con apliques dirigidos el muro que queda entre la habitación principal y el estudio, donde van a ir los cuadros, como en la referencia. Además, una moldura de madera en el muro al lado del balcón, entrepaños, y las cajas para los tomas eléctricos que hagan falta.",
-    pendientes: [
-      "Luces indirectas para los cuadros del muro del corredor",
-      "Moldura de madera en el muro al lado del balcón",
-      "Entrepaños",
-      "Cajas para tomas eléctricos",
-    ],
+      "Iluminar con apliques dirigidos el muro que queda entre la habitación principal y el estudio, donde van a ir los cuadros, como en la referencia. Además, una moldura de madera en el muro al lado del balcón —resuelta con panel WPC—, repisas, y los tomas eléctricos que hagan falta.",
     notas: [
-      "Estos cuatro trabajos están pendientes de que Óscar los confirme y los cotice. Cuando llegue la cotización, se agrega aquí.",
+      "La moldura de madera se cotizó como panel WPC (imitación madera), en la cotización 8.",
+      "Las cotizaciones 7 y 8 son de este espacio; se pagaron junto con la 9 (paneles LED y otros) y la 10 (mortero de la cocina) en una sola transferencia.",
     ],
   },
   {

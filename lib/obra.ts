@@ -39,7 +39,7 @@ export const ESPACIOS: Espacio[] = [
     intencion:
       "La dueña anterior corrió el muro hacia el estudio para agrandar el cuarto útil y alquilarlo aparte. Queremos deshacer eso: demoler el muro donde está hoy y levantarlo en su posición original, para que el estudio vuelva a sus dimensiones. En la franja que se recupera hay que reparar el piso y continuar el guarda escoba.",
     notas: [
-      "La cotización 1 cubre la demolición del muro y la reparación del piso. El muro nuevo en la posición original no aparece cotizado: confirmar con Óscar si entra en la cotización del cuarto útil.",
+      "La cotización 1 cubre la demolición del muro y la reparación del piso. El muro nuevo en la posición original no aparece cotizado, tampoco en la del cuarto útil (7): confirmar con Óscar.",
       "Dónde quedaba el muro original se confirma en sitio: casi siempre se ve la huella en el piso, en el cielo o en el corte de la cornisa.",
     ],
   },
@@ -47,17 +47,15 @@ export const ESPACIOS: Espacio[] = [
     slug: "cuarto-util",
     nombre: "Cuarto útil",
     icono: "estanteria",
-    resumen: "Pendiente de cotizar: grieta, piso en microcemento y estantería en L.",
+    resumen:
+      "Piso de madera levantado, resanes, iluminación, pintura y zócalo. Falta cotizar la estantería en L.",
     intencion:
-      "El cuarto útil tenía cocineta, baño y ducha porque la dueña anterior lo acondicionó para alquilar. Eso ya se retiró: entró en la demolición de la cotización 1. Lo que falta es dejarlo como lo que es, un depósito bien resuelto: resanar y acabar la grieta, retirar la baldosa y dejar el piso en microcemento, y una estantería en L con rieles y entrepaños.",
-    pendientes: [
-      "Resane y acabado de la grieta",
-      "Retiro de la baldosa y piso en microcemento",
-      "Estantería en L con rieles y entrepaños",
-    ],
+      "El cuarto útil tenía cocineta, baño y ducha porque la dueña anterior lo acondicionó para alquilar. Eso ya se retiró: entró en la demolición de la cotización 1. Lo que falta es dejarlo como lo que es, un depósito bien resuelto: levantar el piso de madera, resanar, reubicar la iluminación, pintar, poner zócalo y, al final, una estantería en L con rieles y entrepaños.",
+    pendientes: ["Estantería en L con rieles y entrepaños"],
     notas: [
       "El retiro de la cocineta, el baño y la ducha ya se hizo: está dentro de la línea \"Demolición\" de la cotización 1, que aparece en la ficha del estudio.",
-      "Óscar todavía no envía la cotización de lo pendiente. Cuando llegue, se agrega aquí.",
+      "La cotización 7 levanta el piso de madera pero no dice qué acabado queda. El piso en microcemento que se había hablado no aparece cotizado: confirmar con Óscar si queda así o si se cotiza aparte.",
+      "Las cotizaciones 7 (mano de obra) y 9 (materiales) llegaron por WhatsApp; la imagen descargable es la transcripción literal del mensaje.",
       "El acceso es por el corredor común del edificio: hay que coordinar con la administración los horarios y el paso de escombros y materiales.",
     ],
   },

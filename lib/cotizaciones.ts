@@ -316,6 +316,65 @@ export const COTIZACIONES: Cotizacion[] = [
       },
     ],
   },
+  {
+    numero: 7,
+    servicio: "Mano de obra cuarto útil",
+    fecha: "2026-09-19",
+    archivo: "/cotizaciones/cotizacion-7.png",
+    lineas: [
+      {
+        id: "c7-mano-obra",
+        espacio: "cuarto-util",
+        descripcion:
+          "Levantar el piso de madera, resanes, reubicación de la iluminación, pintura, instalación de zócalo y sacar los residuos",
+        manoObra: 1_400_000,
+        materiales: 0,
+        nota: "Sólo mano de obra: los materiales van en la cotización 9. Los residuos salen al camión el martes, o la basura al lugar destinado en el edificio.",
+      },
+    ],
+    nota: "Llegó por WhatsApp, sin fecha propia: se toma la del pago.",
+  },
+  {
+    numero: 8,
+    servicio: "Servicios varios",
+    fecha: "2026-09-22",
+    archivo: "/cotizaciones/cotizacion-8.png",
+    lineas: [
+      {
+        id: "c8-varios",
+        espacio: "general",
+        descripcion: "Llave de regulación del lavaplatos, pestillo puerta baño y tope magnético",
+        manoObra: 100_000,
+        materiales: 0,
+        nota: "Óscar cobró 100.000 por las tres, materiales incluidos, sin separar: va todo como mano de obra.",
+      },
+    ],
+    nota: "Llegó por WhatsApp, sin fecha propia: se toma la del pago.",
+  },
+  {
+    numero: 9,
+    servicio: "Materiales cuarto útil",
+    fecha: "2026-09-23",
+    archivo: "/cotizaciones/cotizacion-9.png",
+    lineas: [
+      { id: "c9-acrilica", espacio: "cuarto-util", descripcion: "Acrílica blanca 1/4", manoObra: 0, materiales: 40_000 },
+      { id: "c9-rodillo", espacio: "cuarto-util", descripcion: "Rodillo", manoObra: 0, materiales: 10_000 },
+      { id: "c9-masilla", espacio: "cuarto-util", descripcion: "Masilla y cinta malla", manoObra: 0, materiales: 60_000 },
+      { id: "c9-estribos", espacio: "cuarto-util", descripcion: "Estribos hierro", manoObra: 0, materiales: 20_000 },
+      { id: "c9-lampara", espacio: "cuarto-util", descripcion: "Lámpara y encauchetado", manoObra: 0, materiales: 30_000 },
+      { id: "c9-estuco", espacio: "cuarto-util", descripcion: "Estuco plástico", manoObra: 0, materiales: 24_500 },
+      {
+        id: "c9-toma",
+        espacio: "cuarto-util",
+        descripcion: "Toma sobreponer",
+        manoObra: 0,
+        materiales: 10_000,
+        nota: "En el mensaje dice $10.00; son 10.000, que es lo que cuadra con el total de 195.000.",
+      },
+      { id: "c9-tapa", espacio: "cuarto-util", descripcion: "Tapa lisa", manoObra: 0, materiales: 500 },
+    ],
+    nota: "Llegó por WhatsApp, sin fecha propia: se toma la del pago.",
+  },
 ];
 
 export const PAGOS: Pago[] = [
@@ -386,6 +445,32 @@ export const PAGOS: Pago[] = [
     destino: "Oscar Ferreteria",
     archivo: "/pagos/pago-8.jpeg",
   },
+  {
+    numero: 9,
+    fecha: "2026-09-19T14:10",
+    valor: 1_400_000,
+    comprobante: "0000031900",
+    destino: "Oscar Ferreteria",
+    archivo: "/pagos/pago-9.jpeg",
+    nota: "Mano de obra del cuarto útil.",
+  },
+  {
+    numero: 10,
+    fecha: "2026-09-22T14:53",
+    valor: 100_000,
+    comprobante: "0000092800",
+    destino: "Oscar Ferreteria",
+    archivo: "/pagos/pago-10.jpeg",
+  },
+  {
+    numero: 11,
+    fecha: "2026-09-23T20:57",
+    valor: 220_000,
+    comprobante: "0000068200",
+    destino: "Oscar Ferreteria",
+    archivo: "/pagos/pago-11.jpeg",
+    nota: "Materiales del cuarto útil.",
+  },
 ];
 
 export const CUENTAS: Cuenta[] = [
@@ -403,6 +488,14 @@ export const CUENTAS: Cuenta[] = [
     pagos: [1, 8],
     redondeo: 8_000,
     nota: "El anticipo del 5 de septiembre (pago 1, 450.000) quedó como saldo a favor y se descontó de estas dos cotizaciones. La de cocina (492.000) se redondeó a 500.000: 200.000 + 500.000 = 700.000, que es lo pagado.",
+  },
+  { cotizaciones: [7], pagos: [9] },
+  { cotizaciones: [8], pagos: [10] },
+  {
+    cotizaciones: [9],
+    pagos: [11],
+    redondeo: 25_000,
+    nota: "Los 195.000 se subieron a 220.000: 25.000 de propina por venir más rápido el viernes.",
   },
 ];
 
